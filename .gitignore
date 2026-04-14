@@ -12,3 +12,6 @@ public/uploads/places/*
 
 # Database dumps
 *.sql
+
+# Claude Code local settings
+.claude/
