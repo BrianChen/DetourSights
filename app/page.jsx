@@ -1,6 +1,7 @@
 import SearchBar from '@/components/SearchBar';
 import FeaturedDestinations from '@/components/FeaturedDestinations';
 import FeaturedPlaces from '@/components/FeaturedPlaces';
+import PersonalizedSuggestions from '@/components/PersonalizedSuggestions';
 import styles from './page.module.css';
 
 export default function HomePage() {
@@ -15,6 +16,7 @@ export default function HomePage() {
           </div>
         </div>
       </main>
+      <PersonalizedSuggestions />
       <FeaturedDestinations take={5} />
       <FeaturedPlaces take={5} />
     </>

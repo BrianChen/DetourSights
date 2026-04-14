@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   min-height: 60vh;
-  background-image: url('/hero.png');
+  background-image: url('https://res.cloudinary.com/dxfjyn0nq/image/upload/v1776137537/hero_xoivpq.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -1,6 +1,7 @@
 import prisma from '@/lib/db';
 import Image from 'next/image';
 import Link from 'next/link';
+import CarouselRow from '@/components/CarouselRow';
 import styles from './FeaturedDestinations.module.css';
 
 /**
@@ -24,7 +25,7 @@ export default async function FeaturedDestinations({ take = 5 }) {
     <section className={styles.section}>
       <div className={styles.inner}>
         <h2 className={styles.heading}>Featured Destinations</h2>
-        <div className={styles.grid}>
+        <CarouselRow>
           {rows.map(({ destination: d }) => (
             <Link key={d.id} href={`/${d.slug}`} className={styles.card}>
               <div className={styles.imageWrap}>
@@ -46,7 +47,7 @@ export default async function FeaturedDestinations({ take = 5 }) {
               </div>
             </Link>
           ))}
-        </div>
+        </CarouselRow>
       </div>
     </section>
   );

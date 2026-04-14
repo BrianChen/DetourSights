@@ -5,6 +5,7 @@ import PlacesFilter from '@/components/PlacesFilter';
 import { GallerySection } from '@/components/GallerySection';
 import { WhyVisit } from '@/components/WhyVisit';
 import { NearbyDestinations } from '@/components/NearbyDestinations';
+import SetRecentDestination from '@/components/SetRecentDestination';
 
 export async function generateMetadata({ params }) {
   const { destinationSlug } = await params;
@@ -35,6 +36,7 @@ export default async function DestinationPage({ params }) {
 
   return (
     <div className={styles.page}>
+      <SetRecentDestination slug={destination.slug} />
       <div className={styles.header}>
         <div className={styles.headerText}>
           <p className={styles.eyebrow}>Welcome to</p>

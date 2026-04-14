@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/db';
 import styles from './page.module.css';
+import SetRecentDestination from '@/components/SetRecentDestination';
 
 export async function generateMetadata({ params }) {
   const { placeSlug } = await params;
@@ -30,6 +31,7 @@ export default async function PlacePage({ params }) {
 
   return (
     <div className={styles.page}>
+      <SetRecentDestination slug={place.destination.slug} />
       <div className={styles.breadcrumb}>
         <a href={`/${destinationSlug}`}>{place.destination.name}</a>
         <span> / </span>

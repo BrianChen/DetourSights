@@ -1,0 +1,75 @@
+.carousel {
+  position: relative;
+}
+
+.viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(var(--carousel-page-size, 5), 1fr);
+  gap: 16px;
+}
+
+/* Arrow buttons — absolutely positioned, vertically centred on the image area */
+.arrowBtn {
+  position: absolute;
+  top: 44%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  background: var(--color-surface);
+  color: var(--color-accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.arrowBtn:hover {
+  background: var(--color-accent-light);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.arrowLeft  { left: -15px; }
+.arrowRight { right: -15px; }
+
+/* Slide animations */
+@keyframes slideInFromRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes slideInFromLeft {
+  from { transform: translateX(-30px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes slideOutToLeft {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(-30px); opacity: 0; }
+}
+
+@keyframes slideOutToRight {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(30px); opacity: 0; }
+}
+
+.slideInFromRight  { animation: slideInFromRight 0.3s ease both; }
+.slideInFromLeft   { animation: slideInFromLeft  0.3s ease both; }
+.slideOutLeft      { animation: slideOutToLeft   0.3s ease both; }
+.slideOutRight     { animation: slideOutToRight  0.3s ease both; }
+
+@media (max-width: 900px) {
+  .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
