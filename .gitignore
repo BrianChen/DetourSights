@@ -1,0 +1,14 @@
+node_modules/
+.next/
+dist/
+.env
+.env.local
+
+# Uploaded images
+public/uploads/destinations/*
+public/uploads/places/*
+!public/uploads/destinations/.gitkeep
+!public/uploads/places/.gitkeep
+
+# Database dumps
+*.sql

@@ -1,0 +1,153 @@
+.section {
+  margin-top: 48px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 20px;
+}
+
+/* Full-width carousel with absolutely positioned arrows */
+.carousel {
+  position: relative;
+}
+
+.viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+/* Arrow buttons — absolutely positioned, vertically centred on the image area */
+.arrowBtn {
+  position: absolute;
+  top: 44%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  background: var(--color-surface);
+  color: var(--color-accent);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.arrowBtn:hover {
+  background: var(--color-accent-light);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.arrowLeft  { left: -15px; }
+.arrowRight { right: -15px; }
+
+/* Slide animations */
+@keyframes slideInFromRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes slideInFromLeft {
+  from { transform: translateX(-30px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes slideOutToLeft {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(-30px); opacity: 0; }
+}
+
+@keyframes slideOutToRight {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(30px); opacity: 0; }
+}
+
+.slideInFromRight  { animation: slideInFromRight 0.3s ease both; }
+.slideInFromLeft   { animation: slideInFromLeft  0.3s ease both; }
+.slideOutLeft      { animation: slideOutToLeft   0.3s ease both; }
+.slideOutRight     { animation: slideOutToRight  0.3s ease both; }
+
+.card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--color-surface);
+  transition: box-shadow 0.15s;
+  min-width: 0;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  height: 166px;
+  background: var(--color-border);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--color-border);
+}
+
+.badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+.cardBody {
+  padding: 10px 12px 12px;
+}
+
+.cardName {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardCountry {
+  font-size: 0.8rem;
+  color: var(--color-ink-muted);
+}
+
+@media (max-width: 900px) {
+  .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum PriceRange {
+  FREE
+  BUDGET
+  MODERATE
+  EXPENSIVE
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model Destination {
+  id            Int      @id @default(autoincrement())
+  name          String
+  country       String
+  slug          String   @unique
+  description   String?
+  coverImageUrl String?
+  latitude      Float?
+  longitude     Float?
+  viewport      Json?
+  bounds        Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  places        Place[]
+  images        DestinationImage[]
+  featuredEntry FeaturedDestination?
+
+  @@index([name])
+}
+
+// ─── Image (shared) ───────────────────────────────────────────────────────────
+
+// Immutable image metadata — url, attribution, alt text.
+// Sourced from Unsplash, hosted on Cloudinary.
+// Relationship-specific data (isCover, position) lives in the join tables below.
+model Image {
+  id              Int      @id @default(autoincrement())
+  url             String   // Cloudinary URL
+  altText         String?
+  photographer    String?  // required attribution per Unsplash ToS
+  photographerUrl String?  // link to photographer's Unsplash profile
+  sourceUrl       String?  // link to original Unsplash photo page
+  createdAt       DateTime @default(now())
+
+  destinationImages DestinationImage[]
+}
+
+// Join: which images belong to a destination, and in what order.
+model DestinationImage {
+  destinationId Int
+  imageId       Int
+  isCover       Boolean @default(false)
+  position      Int     @default(0)
+
+  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  image       Image       @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@id([destinationId, imageId])
+  @@index([destinationId])
+  @@index([imageId])
+}
+
+
+model Category {
+  id   Int     @id @default(autoincrement())
+  name String  @unique
+  slug String  @unique
+  icon String?
+
+  places PlaceCategory[]
+}
+
+model Place {
+  id          Int        @id @default(autoincrement())
+  name        String
+  slug        String     @unique
+  description String?
+  address     String?
+  latitude    Float?
+  longitude   Float?
+  website     String?
+  phone       String?
+  priceRange  PriceRange?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  coverImageUrl String?
+
+  destinationId Int
+  destination   Destination @relation(fields: [destinationId], references: [id])
+
+  categories    PlaceCategory[]
+  reviews       Review[]
+  photos        Photo[]
+  featuredEntry FeaturedPlace?
+
+  @@index([destinationId])
+}
+
+model PlaceCategory {
+  placeId    Int
+  categoryId Int
+
+  place    Place    @relation(fields: [placeId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@id([placeId, categoryId])
+  @@index([categoryId])
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  reviews Review[]
+  photos  Photo[]
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  body      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId  Int
+  placeId Int
+  user    User  @relation(fields: [userId], references: [id])
+  place   Place @relation(fields: [placeId], references: [id])
+
+  @@unique([userId, placeId])
+  @@index([placeId])
+  @@index([userId])
+}
+
+model Photo {
+  id        Int      @id @default(autoincrement())
+  url       String
+  caption   String?
+  createdAt DateTime @default(now())
+
+  placeId Int
+  userId  Int?
+  place   Place @relation(fields: [placeId], references: [id])
+  user    User? @relation(fields: [userId], references: [id])
+
+  @@index([placeId])
+  @@index([userId])
+}
+
+// Curated list of featured places shown on the homepage.
+// position is 1-based display order. Consumers control how many to show (take: 5 or take: 10).
+model FeaturedPlace {
+  id      Int   @id @default(autoincrement())
+  placeId Int   @unique
+  position Int  // 1-based display order
+
+  place Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@index([position])
+}
+
+// Curated list of featured destinations shown on the homepage.
+// position is 1-based display order. Consumers control how many to show (take: 5 or take: 10).
+model FeaturedDestination {
+  id            Int         @id @default(autoincrement())
+  destinationId Int         @unique
+  position      Int         // 1-based display order
+
+  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@index([position])
+}

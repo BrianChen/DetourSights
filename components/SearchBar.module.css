@@ -1,0 +1,132 @@
+.wrapper {
+  position: relative;
+  width: 520px;
+  max-width: 620px;
+}
+
+.bar {
+  display: flex;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+  height: 60px;
+}
+
+.input {
+  flex: 1;
+  padding: 17px 40px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  border: none;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.input::placeholder {
+  color: var(--color-ink-muted);
+}
+
+.button {
+  padding: 17px 30px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: bolder;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.button:hover {
+  background: var(--color-accent-dark);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  z-index: 300;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 22px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.item:hover,
+.active {
+  background: var(--color-accent-light);
+}
+
+.destName {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.country {
+  font-size: 13px;
+  color: var(--color-ink-muted);
+}
+
+/* ── Compact variant (used in header) ─────────────────────────────────────── */
+
+.compact {
+  width: 300px;
+  max-width: 640px;
+}
+
+.compact .bar {
+  box-shadow: none;
+  height: 42px;
+  border: 1.5px solid var(--color-ink-muted);
+}
+
+.compact .input {
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.compact .button {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.compact .dropdown {
+  top: calc(100% + 4px);
+}
+
+.compact .item {
+  padding: 10px 14px;
+}
+
+.searchIcon {
+  display: flex;
+  align-items: center;
+  padding: 0 6px 0 12px;
+  color: var(--color-ink-muted);
+  line-height: 0;
+}
+
+.compact .destName {
+  font-size: 14px;
+}
+
+.compact .country {
+  font-size: 12px;
+}

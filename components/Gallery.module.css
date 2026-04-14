@@ -1,0 +1,84 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+  padding: 8px;
+  line-height: 0;
+  border-radius: var(--radius-pill);
+}
+
+.closeBtn:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.counter {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.prevBtn,
+.nextBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+  padding: 8px;
+  line-height: 0;
+  border-radius: var(--radius-pill);
+}
+
+.prevBtn {
+  left: -28px;
+  transform: translateY(-50%) translateX(-100%);
+}
+
+.nextBtn {
+  right: -28px;
+  transform: translateY(-50%) translateX(100%);
+}
+
+.prevBtn:hover,
+.nextBtn:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.prevBtn:disabled,
+.nextBtn:disabled {
+  display: none;
+}
+
+.imageWrap {
+  max-width: 90vw;
+  max-height: 90vh;
+  position: relative;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}

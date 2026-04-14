@@ -1,0 +1,144 @@
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.breadcrumb {
+  font-size: 0.85rem;
+  color: var(--color-ink-muted);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.breadcrumb a:hover {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.2px;
+}
+
+.price {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-surface-alt);
+  color: var(--color-ink-secondary);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.rating {
+  font-size: 0.9rem;
+  color: var(--color-rating);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.description {
+  font-size: 1.05rem;
+  color: var(--color-ink-secondary);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--color-ink-secondary);
+  margin-bottom: 48px;
+  padding: 20px 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.details a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.details a:hover {
+  text-decoration: underline;
+}
+
+.reviews h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--color-ink);
+}
+
+.review {
+  border-top: 1px solid var(--color-border-light);
+  padding: 20px 0;
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.reviewHeader strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.reviewHeader span {
+  color: var(--color-rating);
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+}
+
+.review p {
+  font-size: 0.95rem;
+  color: var(--color-ink-secondary);
+  line-height: 1.7;
+}

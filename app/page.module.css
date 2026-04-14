@@ -1,0 +1,49 @@
+.hero {
+  position: relative;
+  min-height: 60vh;
+  background-image: url('/hero.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-search {
+  width: 500px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(28, 43, 58, 0.45) 0%,
+    rgba(28, 43, 58, 0.20) 55%,
+    rgba(28, 43, 58, 0.50) 100%
+  );
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+}
