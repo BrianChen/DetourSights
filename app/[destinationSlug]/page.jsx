@@ -11,7 +11,20 @@ export async function generateMetadata({ params }) {
   const { destinationSlug } = await params;
   const destination = await prisma.destination.findUnique({ where: { slug: destinationSlug } });
   if (!destination) return {};
-  return { title: `${destination.name} — Detour Sights` };
+  const description = destination.description
+    ?? `Explore the best things to do in ${destination.name}, ${destination.country}.`;
+  return {
+    title: `${destination.name} — Detour Sights`,
+    description,
+    openGraph: {
+      title: `${destination.name} — Detour Sights`,
+      description,
+      url: `https://www.detoursights.com/${destinationSlug}`,
+      siteName: 'Detour Sights',
+      type: 'website',
+      ...(destination.coverImageUrl && { images: [{ url: destination.coverImageUrl }] }),
+    },
+  };
 }
 
 export default async function DestinationPage({ params }) {

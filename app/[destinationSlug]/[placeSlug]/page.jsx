@@ -7,9 +7,25 @@ import PlaceMap from '@/components/PlaceMap';
 
 export async function generateMetadata({ params }) {
   const { placeSlug } = await params;
-  const place = await prisma.place.findUnique({ where: { slug: placeSlug } });
+  const place = await prisma.place.findUnique({
+    where: { slug: placeSlug },
+    include: { destination: true },
+  });
   if (!place) return {};
-  return { title: `${place.name} — Detour Sights` };
+  const description = place.description
+    ?? `Discover ${place.name} in ${place.destination?.name ?? 'this destination'}.`;
+  return {
+    title: `${place.name} — Detour Sights`,
+    description,
+    openGraph: {
+      title: `${place.name} — Detour Sights`,
+      description,
+      url: `https://www.detoursights.com/${place.destination.slug}/${placeSlug}`,
+      siteName: 'Detour Sights',
+      type: 'website',
+      ...(place.coverImageUrl && { images: [{ url: place.coverImageUrl }] }),
+    },
+  };
 }
 
 export default async function PlacePage({ params }) {
