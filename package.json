@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma migrate deploy && prisma generate && next build",
     "start": "next start",
     "db:migrate": "prisma migrate dev",
     "db:seed": "node prisma/seed.js",
@@ -32,7 +32,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-next": "^16.2.3",
     "playwright": "^1.59.1",
     "prisma": "^5.22.0"

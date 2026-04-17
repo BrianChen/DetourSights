@@ -41,7 +41,7 @@ jsconfig.json                         # Path alias: @/* → ./*
 2. If a comment becomes obsolete after a change, remove it.
 
 ## Key Conventions
-- **Path alias:** Use `@/` for all imports (e.g. `@/components/Header`, `@/lib/db`)
+- **Path alias:** Use `@/` for all imports (e.g. `@/components/Header`, `@/lib/prisma`)
 - **Server vs client:** Pages are server components by default. Add `'use client'` only when state/interactivity is needed (e.g. `PlacesFilter`)
 - **CSS:** Always use CSS Modules + design tokens. Never inline styles or use Tailwind.
 - **Design tokens:** Defined in `app/globals.css`. Always use `var(--token-name)` — do not hardcode colors or fonts.

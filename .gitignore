@@ -15,3 +15,5 @@ public/uploads/places/*
 
 # Claude Code local settings
 .claude/
+.vercel
+.env*.local

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import prisma from '@/lib/db';
+import prisma from '@/lib/prisma';
 import styles from './Header.module.css';
 import HeaderClient from '@/components/HeaderClient';
 

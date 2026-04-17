@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import prisma from '@/lib/db';
+import prisma from '@/lib/prisma';
 import { getRecentDestinationSlug } from '@/lib/recentDestination';
 import CarouselRow from '@/components/CarouselRow';
 import styles from './PersonalizedSuggestions.module.css';

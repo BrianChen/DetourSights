@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import prisma from '@/lib/prisma';
 
 const EARTH_RADIUS_MILES = 3958.8;
 const MAX_DISTANCE_MILES = 400;

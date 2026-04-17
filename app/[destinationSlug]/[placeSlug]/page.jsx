@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import prisma from '@/lib/db';
+import prisma from '@/lib/prisma';
 import styles from './page.module.css';
 import SetRecentDestination from '@/components/SetRecentDestination';
 import PlaceMap from '@/components/PlaceMap';

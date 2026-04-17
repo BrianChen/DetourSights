@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import prisma from '@/lib/db';
+import prisma from '@/lib/prisma';
 import styles from './page.module.css';
 import PlacesFilter from '@/components/PlacesFilter';
 import { GallerySection } from '@/components/GallerySection';
