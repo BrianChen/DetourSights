@@ -11,7 +11,7 @@ public/uploads/places/*
 !public/uploads/places/.gitkeep
 
 # Database dumps
-*.sql
+prisma/db_dumps/*.sql
 
 # Claude Code local settings
 .claude/
