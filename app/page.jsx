@@ -5,8 +5,20 @@ import PersonalizedSuggestions from '@/components/PersonalizedSuggestions';
 import styles from './page.module.css';
 
 export default function HomePage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Detour Sights',
+    url: 'https://www.detoursights.com',
+    description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className={styles.hero}>
         <div className={styles.overlay} />
         <div className={styles.content}>

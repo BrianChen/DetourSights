@@ -16,6 +16,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${destination.name} — Detour Sights`,
     description,
+    alternates: {
+      canonical: `https://www.detoursights.com/${destinationSlug}`,
+    },
     openGraph: {
       title: `${destination.name} — Detour Sights`,
       description,
@@ -23,6 +26,12 @@ export async function generateMetadata({ params }) {
       siteName: 'Detour Sights',
       type: 'website',
       ...(destination.coverImageUrl && { images: [{ url: destination.coverImageUrl }] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${destination.name} — Detour Sights`,
+      description,
+      ...(destination.coverImageUrl && { images: [destination.coverImageUrl] }),
     },
   };
 }
@@ -47,8 +56,21 @@ export default async function DestinationPage({ params }) {
 
   const galleryImages = destination.images.map((di) => di.image.url);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: destination.name,
+    description: destination.description ?? `Explore the best things to do in ${destination.name}, ${destination.country}.`,
+    url: `https://www.detoursights.com/${destination.slug}`,
+    ...(destination.coverImageUrl && { image: destination.coverImageUrl }),
+  };
+
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SetRecentDestination slug={destination.slug} />
       <div className={styles.header}>
         <div className={styles.headerText}>

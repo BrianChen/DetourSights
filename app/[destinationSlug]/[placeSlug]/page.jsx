@@ -17,6 +17,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${place.name} — Detour Sights`,
     description,
+    alternates: {
+      canonical: `https://www.detoursights.com/${place.destination.slug}/${placeSlug}`,
+    },
     openGraph: {
       title: `${place.name} — Detour Sights`,
       description,
@@ -24,6 +27,12 @@ export async function generateMetadata({ params }) {
       siteName: 'Detour Sights',
       type: 'website',
       ...(place.coverImageUrl && { images: [{ url: place.coverImageUrl }] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${place.name} — Detour Sights`,
+      description,
+      ...(place.coverImageUrl && { images: [place.coverImageUrl] }),
     },
   };
 }
@@ -49,8 +58,76 @@ export default async function PlacePage({ params }) {
 
   const hasMap = place.latitude != null && place.longitude != null;
 
+  const CATEGORY_SCHEMA_TYPE = {
+    food: 'FoodEstablishment',
+    activity: 'TouristAttraction',
+    attraction: 'TouristAttraction',
+    nightlife: 'BarOrPub',
+    shopping: 'Store',
+    nature: 'Park',
+  };
+
+  const PRICE_RANGE_MAP = {
+    FREE: 'Free',
+    BUDGET: '$',
+    MODERATE: '$$',
+    EXPENSIVE: '$$$',
+  };
+
+  const schemaTypes = [...new Set(
+    place.categories.map(({ category }) => CATEGORY_SCHEMA_TYPE[category.slug] ?? 'TouristAttraction')
+  )];
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': schemaTypes.length === 1 ? schemaTypes[0] : schemaTypes,
+    name: place.name,
+    description: place.description ?? `Discover ${place.name} in ${place.destination.name}.`,
+    url: `https://www.detoursights.com/${place.destination.slug}/${place.slug}`,
+    ...(place.coverImageUrl && { image: place.coverImageUrl }),
+    ...(place.address && { address: place.address }),
+    ...(place.phone && { telephone: place.phone }),
+    ...(place.website && { sameAs: place.website }),
+    ...(place.priceRange && { priceRange: PRICE_RANGE_MAP[place.priceRange] }),
+    ...(avgRating && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: avgRating,
+        reviewCount: place.reviews.length,
+        bestRating: 5,
+      },
+    }),
+  };
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: place.destination.name,
+        item: `https://www.detoursights.com/${place.destination.slug}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: place.name,
+        item: `https://www.detoursights.com/${place.destination.slug}/${place.slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <SetRecentDestination slug={place.destination.slug} />
 
       <section className={styles.hero}>

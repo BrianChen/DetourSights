@@ -18,12 +18,20 @@ const inter = Inter({
 export const metadata = {
   title: 'Detour Sights',
   description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
+  alternates: {
+    canonical: 'https://www.detoursights.com',
+  },
   openGraph: {
     title: 'Detour Sights',
     description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
     url: 'https://www.detoursights.com',
     siteName: 'Detour Sights',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Detour Sights',
+    description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
   },
 };
 
