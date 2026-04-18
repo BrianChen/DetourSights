@@ -3,7 +3,7 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect } from "react";
 import styles from "./Gallery.module.css";
 
-export function Gallery({ images, currentIndex, onClose, onNext, onPrevious }) {
+export function Gallery({ images, label, currentIndex, onClose, onNext, onPrevious }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
@@ -44,7 +44,7 @@ export function Gallery({ images, currentIndex, onClose, onNext, onPrevious }) {
           <motion.img
             key={currentIndex}
             src={images[currentIndex]}
-            alt={`Gallery image ${currentIndex + 1}`}
+            alt={label ? `${label} — photo ${currentIndex + 1}` : `Photo ${currentIndex + 1}`}
             className={styles.image}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}

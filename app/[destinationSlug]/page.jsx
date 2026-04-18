@@ -79,7 +79,7 @@ export default async function DestinationPage({ params }) {
           <p className={styles.country}>{destination.country}</p>
           {destination.description && <p className={styles.description}>{destination.description}</p>}
         </div>
-        {galleryImages.length > 0 && <GallerySection images={galleryImages} />}
+        {galleryImages.length > 0 && <GallerySection images={galleryImages} label={destination.name} />}
       </div>
 
       <PlacesFilter places={destination.places} destinationSlug={destinationSlug} />
