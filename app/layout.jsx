@@ -16,10 +16,14 @@ const inter = Inter({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://www.detoursights.com'),
   title: 'Detour Sights',
   description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
   alternates: {
     canonical: 'https://www.detoursights.com',
+  },
+  other: {
+    'theme-color': '#E8602C',
   },
   openGraph: {
     title: 'Detour Sights',

@@ -22,12 +22,12 @@ if (!prodUrl) {
 const dumpFile = './db_dump.bak';
 
 console.log('Dumping dev database...');
-execSync(`pg_dump -Fc -v -d "${devUrl}" -n public -f ${dumpFile}`, { stdio: 'inherit' });
+execSync(`pg_dump -Fc -v -d "${devUrl}" -n public -f "${dumpFile}"`, { stdio: 'inherit' });
 
 console.log('Dropping and recreating public schema on prod...');
 execSync(`psql "${prodUrl}" -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"`, { stdio: 'inherit' });
 
 console.log('Restoring to prod...');
-execSync(`pg_restore -d "${prodUrl}" -v ${dumpFile}`, { stdio: 'inherit' });
+execSync(`pg_restore -d "${prodUrl}" -n public --no-owner --no-privileges -v "${dumpFile}"`, { stdio: 'inherit' });
 
 console.log('-complete-');
