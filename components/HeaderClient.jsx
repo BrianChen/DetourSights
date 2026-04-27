@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import SearchBar from '@/components/SearchBar';
 import HeaderMenu from '@/components/HeaderMenu';
+import { useIsLaptopOrSmaller } from '@/lib/media-queries';
 
 /**
  * @param {{ label: string, href: string }[]} destinations
@@ -11,12 +12,13 @@ import HeaderMenu from '@/components/HeaderMenu';
  */
 export default function HeaderClient({ destinations, places }) {
   const pathname = usePathname();
-  const isHome = pathname === '/';
-  const [scrolledPast, setScrolledPast] = useState(false);
+  const isHomePage = pathname === '/';
+  const [heroSearchScrolledPast, setIsHomePageSearchBarInViewport] = useState(false);
+  const isLaptopOrSmaller = useIsLaptopOrSmaller();
 
   useEffect(() => {
-    if (!isHome) {
-      setScrolledPast(false);
+    if (!isHomePage) {
+      setIsHomePageSearchBarInViewport(false);
       return;
     }
 
@@ -25,18 +27,18 @@ export default function HeaderClient({ destinations, places }) {
       const header = document.querySelector('header');
       if (!el) return;
       const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
-      setScrolledPast(el.getBoundingClientRect().top < headerBottom);
+      setIsHomePageSearchBarInViewport(el.getBoundingClientRect().top < headerBottom);
     };
 
     check();
     window.addEventListener('scroll', check, { passive: true });
     return () => window.removeEventListener('scroll', check);
-  }, [isHome]);
+  }, [isHomePage]);
 
-  // Menu only on homepage before scrolling past the hero search
-  const showMenu = isHome && !scrolledPast;
-  // Compact search everywhere else: non-homepage, or homepage after scrolling past
-  const showSearch = !isHome || scrolledPast;
+  // Menu only on homepage while hero search is still visible, and not on tablet/mobile
+  const showMenu = isHomePage && !heroSearchScrolledPast && !isLaptopOrSmaller;
+  // Compact search when hero search is out of view (scrolled past or non-homepage), and not on tablet/mobile
+  const showSearch = (heroSearchScrolledPast || !isHomePage) && !isLaptopOrSmaller;
 
   return (
     <AnimatePresence mode="wait">

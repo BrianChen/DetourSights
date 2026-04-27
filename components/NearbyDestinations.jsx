@@ -2,15 +2,32 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './NearbyDestinations.module.css';
-
-const PAGE_SIZE = 5;
+import {
+  useIsLaptopOrSmaller,
+  useIsTabletOrSmaller,
+  useIsLargeMobileOrSmaller,
+  useIsMobile,
+} from '@/lib/media-queries';
 
 export function NearbyDestinations({ id, latitude, longitude }) {
   const [destinations, setDestinations] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState(null); // 'left' | 'right'
+
+  const isLaptop   = useIsLaptopOrSmaller();
+  const isTablet   = useIsTabletOrSmaller();
+  const isLgMobile = useIsLargeMobileOrSmaller();
+  const isMobile   = useIsMobile();
+
+  // Compute visible column count — most restrictive breakpoint wins.
+  let visibleCount = 5;
+  if (isLaptop)   visibleCount = 4;
+  if (isTablet)   visibleCount = 3;
+  if (isLgMobile) visibleCount = 2;
+  if (isMobile)   visibleCount = 1;
 
   useEffect(() => {
     if (latitude == null || longitude == null) return;
@@ -19,11 +36,16 @@ export function NearbyDestinations({ id, latitude, longitude }) {
       .then((data) => setDestinations(data));
   }, [id, latitude, longitude]);
 
+  // Reset to page 0 when visibleCount changes (e.g. window resize).
+  useEffect(() => {
+    setStartIndex(0);
+  }, [visibleCount]);
+
   if (destinations.length === 0) return null;
 
   const hasPrev = startIndex > 0;
-  const hasNext = startIndex + PAGE_SIZE < destinations.length;
-  const visible = destinations.slice(startIndex, startIndex + PAGE_SIZE);
+  const hasNext = startIndex + visibleCount < destinations.length;
+  const visible = destinations.slice(startIndex, startIndex + visibleCount);
 
   function navigate(dir) {
     if (animating) return;
@@ -45,11 +67,14 @@ export function NearbyDestinations({ id, latitude, longitude }) {
       <div className={styles.carousel}>
         {hasPrev && (
           <button className={`${styles.arrowBtn} ${styles.arrowLeft}`} onClick={() => navigate('left')} aria-label="Previous">
-            &lt;
+            <ChevronLeft size={18} strokeWidth={2.5} />
           </button>
         )}
         <div className={styles.viewport}>
-          <div className={`${styles.row} ${animClass}`}>
+          <div
+            className={`${styles.row} ${animClass}`}
+            style={{ '--nearby-cols': visibleCount }}
+          >
             {visible.map((d) => (
               <Link key={d.id} href={`/${d.slug}`} className={styles.card}>
                 <div className={styles.imageWrap}>
@@ -59,7 +84,7 @@ export function NearbyDestinations({ id, latitude, longitude }) {
                       alt={d.name}
                       fill
                       className={styles.image}
-                      sizes="(max-width: 768px) 50vw, 20vw"
+                      sizes="(max-width: 767px) 50vw, 20vw" /* 767px = --tablet breakpoint (app/globals.css) */
                     />
                   ) : (
                     <div className={styles.placeholder} />
@@ -76,7 +101,7 @@ export function NearbyDestinations({ id, latitude, longitude }) {
         </div>
         {hasNext && (
           <button className={`${styles.arrowBtn} ${styles.arrowRight}`} onClick={() => navigate('right')} aria-label="Next">
-            &gt;
+            <ChevronRight size={18} strokeWidth={2.5} />
           </button>
         )}
       </div>

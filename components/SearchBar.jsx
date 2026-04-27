@@ -71,7 +71,7 @@ export default function SearchBar({ compact = false }) {
   return (
     <div className={`${styles.wrapper} ${compact ? styles.compact : ''}`} ref={containerRef}>
       <div className={styles.bar}>
-        {compact && <span className={styles.searchIcon}><Search size={16} /></span>}
+        {compact && <span className={styles.compactIcon}><Search size={16} /></span>}
         <input
           className={styles.input}
           type="text"
@@ -82,7 +82,10 @@ export default function SearchBar({ compact = false }) {
           onFocus={() => suggestions.length > 0 && setOpen(true)}
           autoComplete="off"
         />
-        {!compact && <button className={styles.button} onClick={handleSearch}>Search</button>}
+        {compact
+          ? <button className={styles.compactButton} onClick={handleSearch} aria-label="Search">Search</button>
+          : <button className={styles.button} onClick={handleSearch}>Search</button>
+        }
       </div>
       {open && (
         <ul className={styles.dropdown}>

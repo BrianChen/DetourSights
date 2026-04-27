@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  margin-right: 16px;
+  margin-right: 32px;
   text-decoration: none;
   opacity: 1;
   transition: opacity 0.15s;
@@ -38,10 +38,25 @@
   width: auto;
 }
 
-@media (max-width: 600px) {
+@media (--tablet) {
+  .inner {
+    height: 72px;
+  }
+
+  .logoImg {
+    height: 52px;
+  }
+}
+
+@media (--mobile) {
   .inner {
     padding: 0 16px;
     gap: 4px;
+    height: 64px;
+  }
+
+  .logoImg {
+    height: 44px;
   }
 
   .logo {

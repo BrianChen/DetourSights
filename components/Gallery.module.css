@@ -10,8 +10,8 @@
 
 .closeBtn {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   z-index: 10;
   color: #fff;
   background: rgba(0, 0, 0, 0.5);
@@ -36,6 +36,7 @@
   font-size: 1.1rem;
 }
 
+/* Nav buttons — positioned within the fixed backdrop, clear of image edges */
 .prevBtn,
 .nextBtn {
   position: absolute;
@@ -49,16 +50,15 @@
   padding: 8px;
   line-height: 0;
   border-radius: var(--radius-pill);
+  z-index: 10;
 }
 
 .prevBtn {
-  left: -28px;
-  transform: translateY(-50%) translateX(-100%);
+  left: 16px;
 }
 
 .nextBtn {
-  right: -28px;
-  transform: translateY(-50%) translateX(100%);
+  right: 16px;
 }
 
 .prevBtn:hover,

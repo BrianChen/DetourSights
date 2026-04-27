@@ -33,6 +33,7 @@ export default function PlacesFilter({ places, destinationSlug }) {
 
   return (
     <>
+      <p className={styles.filterLabel}>Filters:</p>
       <div className={styles.filterBar} role="group" aria-label="Filter by category">
         {categories.map(cat => (
           <button
@@ -65,7 +66,7 @@ export default function PlacesFilter({ places, destinationSlug }) {
                 alt={place.name}
                 fill
                 className={styles.image}
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 767px) 100vw, 33vw" /* 767px = --tablet breakpoint (app/globals.css) */
               />
             </div>
             <div className={styles.cardBody}>

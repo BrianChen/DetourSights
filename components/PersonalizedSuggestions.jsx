@@ -39,7 +39,7 @@ export default async function PersonalizedSuggestions() {
     <section className={styles.section}>
       <div className={styles.inner}>
         <h2 className={styles.heading}>Based on your recent search for {destination.name}</h2>
-        <CarouselRow pageSize={3}>
+        <CarouselRow pageSize={3} responsiveCols={{ laptop: 2, lgMobile: 1 }}>
           {destination.places.map((place) => {
             const category = place.categories[0]?.category;
             return (

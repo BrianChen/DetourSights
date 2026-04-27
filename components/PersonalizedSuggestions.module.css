@@ -98,3 +98,28 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+@media (--tablet) {
+  .section {
+    padding: 32px 0 0;
+  }
+
+  .inner {
+    padding: 0 16px;
+  }
+
+  .heading {
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+  }
+}
+
+@media (--mobile) {
+  .section {
+    padding: 24px 0 0;
+  }
+
+  .heading {
+    font-size: 1.2rem;
+  }
+}

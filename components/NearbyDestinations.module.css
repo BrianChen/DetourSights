@@ -22,7 +22,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(var(--nearby-cols, 5), 1fr);
   gap: 16px;
 }
 
@@ -146,8 +146,3 @@
   color: var(--color-ink-muted);
 }
 
-@media (max-width: 900px) {
-  .row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}

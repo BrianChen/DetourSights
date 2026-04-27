@@ -1,4 +1,13 @@
 /* ── Filter bar ─────────────────────────────────────────────────────────────── */
+.filterLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 8px;
+}
+
 .filterBar {
   display: flex;
   flex-wrap: wrap;
@@ -80,7 +89,7 @@
 /* ── Place grid ─────────────────────────────────────────────────────────────── */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
 }
 
@@ -167,4 +176,23 @@
   color: var(--color-ink-muted);
   font-size: 0.95rem;
   padding: 48px 0;
+}
+
+@media (--mobile) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .imageWrap {
+    height: 110px;
+  }
+
+  .placeName {
+    font-size: 0.95rem;
+  }
+
+  .cardBody {
+    padding: 10px 12px 12px;
+  }
 }

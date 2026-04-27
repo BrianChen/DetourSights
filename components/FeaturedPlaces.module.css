@@ -69,3 +69,32 @@
   color: var(--color-ink-muted);
 }
 
+@media (--tablet) {
+  .section {
+    padding: 0 0 40px;
+  }
+
+  .heading {
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+  }
+}
+
+@media (--mobile) {
+  .section {
+    padding: 0 0 28px;
+  }
+
+  .inner {
+    padding: 0 16px;
+  }
+
+  .heading {
+    font-size: 1.2rem;
+  }
+
+  .imageWrap {
+    height: 140px;
+  }
+}
+

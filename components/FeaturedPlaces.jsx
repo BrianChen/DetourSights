@@ -31,7 +31,7 @@ export default async function FeaturedPlaces({ take = 5 }) {
     <section className={styles.section}>
       <div className={styles.inner}>
         <h2 className={styles.heading}>Top Places</h2>
-        <CarouselRow>
+        <CarouselRow responsiveCols={{ laptop: 4, tablet: 3, lgMobile: 2 }}>
           {rows.map(({ place: p }) => (
             <Link key={p.id} href={`/${p.destination.slug}/${p.slug}`} className={styles.card}>
               <div className={styles.imageWrap}>

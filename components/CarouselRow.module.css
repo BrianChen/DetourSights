@@ -68,8 +68,3 @@
 .slideOutLeft      { animation: slideOutToLeft   0.3s ease both; }
 .slideOutRight     { animation: slideOutToRight  0.3s ease both; }
 
-@media (max-width: 900px) {
-  .row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
