@@ -13,6 +13,10 @@ public/uploads/places/*
 # Database dumps
 prisma/db_dumps/*.sql
 
+# Playwright output
+test-results/
+playwright-report/
+
 # Claude Code local settings
 .claude/
 .vercel
