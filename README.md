@@ -1,4 +1,4 @@
-# Detour Sights
+# Detour Sights (https://www.detoursights.com")
 
 A travel discovery web app for finding things to do, places to eat, and hidden gems at destinations around the world.
 
