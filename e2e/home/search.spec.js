@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DESTINATION } from './fixtures.js';
+import { DESTINATION } from '../fixtures.js';
 
 test.describe('Search bar', () => {
   test.beforeEach(async ({ page }) => {

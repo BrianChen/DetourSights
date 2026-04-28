@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DESTINATION, PLACES } from './fixtures.js';
+import { DESTINATION, PLACES } from '../fixtures.js';
 
 // Use the attraction-only place — it has a single known category, no image, no address.
 // Simple and predictable.
@@ -23,7 +23,7 @@ test.describe('Place detail page', () => {
   });
 
   test('breadcrumb links back to destination', async ({ page }) => {
-    const breadcrumbLink = page.getByRole('link', { name: DESTINATION.name });
+    const breadcrumbLink = page.locator('#breadcrumb-destination');
     await expect(breadcrumbLink).toBeVisible();
     await breadcrumbLink.click();
 

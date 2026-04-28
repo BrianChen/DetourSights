@@ -145,7 +145,7 @@ export default async function PlacePage({ params }) {
         <div className={styles.heroContent}>
           <div className={styles.heroInfo}>
             <div className={styles.breadcrumb}>
-              <a href={`/${destinationSlug}`}>{place.destination.name}</a>
+              <a id="breadcrumb-destination" href={`/${destinationSlug}`}>{place.destination.name}</a>
               <span> / </span>
               <span>{place.name}</span>
             </div>

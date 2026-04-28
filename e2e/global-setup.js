@@ -37,6 +37,26 @@ export default async function globalSetup() {
     }),
   ]);
 
+  // Four gallery images — enough to show thumbnails (3) + "+1" overflow badge
+  const existingImages = await prisma.destinationImage.count({ where: { destinationId: destination.id } });
+  if (existingImages === 0) {
+    const images = await prisma.image.createManyAndReturn({
+      data: [
+        { url: '/place-placeholder.jpg', altText: '__test-gallery-1' },
+        { url: '/place-placeholder.jpg', altText: '__test-gallery-2' },
+        { url: '/place-placeholder.jpg', altText: '__test-gallery-3' },
+        { url: '/place-placeholder.jpg', altText: '__test-gallery-4' },
+      ],
+    });
+    await prisma.destinationImage.createMany({
+      data: images.map((img, i) => ({
+        destinationId: destination.id,
+        imageId: img.id,
+        position: i,
+      })),
+    });
+  }
+
   await Promise.all([
     prisma.placeCategory.upsert({
       where: { placeId_categoryId: { placeId: foodPlace.id, categoryId: food.id } },

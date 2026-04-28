@@ -59,7 +59,7 @@ export default function PlacesFilter({ places, destinationSlug }) {
 
       <div className={styles.grid}>
         {filtered.map(place => (
-          <a key={place.id} href={`/${destinationSlug}/${place.slug}`} className={styles.card}>
+          <a key={place.id} id={`place-${place.slug}`} href={`/${destinationSlug}/${place.slug}`} className={styles.card}>
             <div className={styles.imageWrap}>
               <Image
                 src={place.coverImageUrl || '/place-placeholder.jpg'}

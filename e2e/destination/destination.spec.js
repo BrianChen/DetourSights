@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DESTINATION, PLACES } from './fixtures.js';
+import { DESTINATION, PLACES } from '../fixtures.js';
 
 test.describe('Destination page', () => {
   test.beforeEach(async ({ page }) => {
@@ -41,11 +41,11 @@ test.describe('Destination page', () => {
     await filterGroup.getByRole('button', { name: /food/i }).click();
 
     // Food places are visible
-    await expect(page.getByRole('link', { name: PLACES.food.name })).toBeVisible();
-    await expect(page.getByRole('link', { name: PLACES.both.name })).toBeVisible();
+    await expect(page.locator(`#place-${PLACES.food.slug}`)).toBeVisible();
+    await expect(page.locator(`#place-${PLACES.both.slug}`)).toBeVisible();
 
     // Attraction-only place is hidden
-    await expect(page.getByRole('link', { name: PLACES.attraction.name })).not.toBeVisible();
+    await expect(page.locator(`#place-${PLACES.attraction.slug}`)).not.toBeVisible();
   });
 
   test('Clear button restores all places', async ({ page }) => {
@@ -53,13 +53,13 @@ test.describe('Destination page', () => {
     await filterGroup.getByRole('button', { name: /food/i }).click();
 
     // Attraction-only place is hidden while filter is active
-    await expect(page.getByRole('link', { name: PLACES.attraction.name })).not.toBeVisible();
+    await expect(page.locator(`#place-${PLACES.attraction.slug}`)).not.toBeVisible();
 
     const clearBtn = filterGroup.getByRole('button', { name: /clear/i });
     await clearBtn.click();
 
     // All places are visible again
-    await expect(page.getByRole('link', { name: PLACES.attraction.name })).toBeVisible();
+    await expect(page.locator(`#place-${PLACES.attraction.slug}`)).toBeVisible();
     await expect(clearBtn).not.toBeVisible();
   });
 

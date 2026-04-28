@@ -16,6 +16,10 @@ export default async function globalTeardown() {
   // PlaceCategory has no cascade — must delete before Place
   await prisma.placeCategory.deleteMany({ where: { placeId: { in: placeIds } } });
   await prisma.place.deleteMany({ where: { id: { in: placeIds } } });
+
+  // Delete test gallery images (DestinationImage rows cascade-delete with the destination)
+  await prisma.image.deleteMany({ where: { altText: { startsWith: '__test-gallery-' } } });
+
   await prisma.destination.deleteMany({ where: { slug: '__test-city' } });
 
   await prisma.$disconnect();
