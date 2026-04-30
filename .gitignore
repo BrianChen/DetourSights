@@ -16,8 +16,11 @@ prisma/db_dumps/*.sql
 # Playwright output
 test-results/
 playwright-report/
+.playwright-mcp/
 
 # Claude Code local settings
 .claude/
 .vercel
 .env*.local
+
+docs/

@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -19,6 +20,12 @@ enum PriceRange {
 enum Role {
   USER
   ADMIN
+}
+
+enum IndoorOutdoor {
+  INDOOR
+  OUTDOOR
+  BOTH
 }
 
 // ─── Models ──────────────────────────────────────────────────────────────────
@@ -96,9 +103,23 @@ model Place {
   longitude   Float?
   website     String?
   phone       String?
-  priceRange  PriceRange?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  priceRange           PriceRange?
+  tagline              String?
+  whyVisit             String[]
+  neighbourhood        String?
+  bestTimeToVisit      String?
+  howLongToSpend       String?
+  bookingRequired      Boolean?
+  bookInAdvanceWarning String?
+  dressCode            String?
+  localTips            String[]
+  historyBackground    String?
+  whatToExpect         String?
+  whatToBring          String[]
+  indoorOutdoor        IndoorOutdoor?
+  weatherDependent     Boolean?
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
 
   coverImageUrl String?
 
@@ -106,6 +127,7 @@ model Place {
   destination   Destination @relation(fields: [destinationId], references: [id])
 
   categories    PlaceCategory[]
+  moods         PlaceMood[]
   reviews       Review[]
   photos        Photo[]
   featuredEntry FeaturedPlace?
@@ -122,6 +144,26 @@ model PlaceCategory {
 
   @@id([placeId, categoryId])
   @@index([categoryId])
+}
+
+model Mood {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  slug String @unique
+  icon String?
+
+  places PlaceMood[]
+}
+
+model PlaceMood {
+  placeId Int
+  moodId  Int
+
+  place Place @relation(fields: [placeId], references: [id])
+  mood  Mood  @relation(fields: [moodId], references: [id])
+
+  @@id([placeId, moodId])
+  @@index([moodId])
 }
 
 model User {

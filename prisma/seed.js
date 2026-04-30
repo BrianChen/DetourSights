@@ -2,6 +2,17 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  // ─── Moods ────────────────────────────────────────────────────────────────
+  await Promise.all([
+    prisma.mood.upsert({ where: { slug: 'adventurous' },        update: {}, create: { name: 'Adventurous',         slug: 'adventurous',         icon: '🧗' } }),
+    prisma.mood.upsert({ where: { slug: 'relaxing' },           update: {}, create: { name: 'Relaxing',            slug: 'relaxing',            icon: '🌿' } }),
+    prisma.mood.upsert({ where: { slug: 'cultural' },           update: {}, create: { name: 'Cultural',            slug: 'cultural',            icon: '🏛️' } }),
+    prisma.mood.upsert({ where: { slug: 'foodie' },             update: {}, create: { name: 'Foodie',              slug: 'foodie',              icon: '🍽️' } }),
+    prisma.mood.upsert({ where: { slug: 'off-the-beaten-path'}, update: {}, create: { name: 'Off the beaten path', slug: 'off-the-beaten-path', icon: '🗺️' } }),
+    prisma.mood.upsert({ where: { slug: 'romantic' },           update: {}, create: { name: 'Romantic',            slug: 'romantic',            icon: '🌹' } }),
+    prisma.mood.upsert({ where: { slug: 'family-friendly' },    update: {}, create: { name: 'Family-friendly',     slug: 'family-friendly',     icon: '👨‍👩‍👧' } }),
+  ]);
+
   // ─── Categories ───────────────────────────────────────────────────────────
   const [food, activity, attraction, nightlife, shopping, nature] = await Promise.all([
     prisma.category.upsert({ where: { slug: 'food' },       update: {}, create: { name: 'Food',       slug: 'food',       icon: '🍽️' } }),
