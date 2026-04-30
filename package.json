@@ -16,6 +16,7 @@
     "script:load-images": "node lib/scripts/load-images.js",
     "script:populate-place-descriptions": "node lib/scripts/places/populate-place-descriptions.js",
     "script:import-place-content": "node lib/scripts/places/import-place-content.js",
+    "lint": "eslint . --max-warnings 0",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },

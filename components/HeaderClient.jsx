@@ -17,10 +17,7 @@ export default function HeaderClient({ destinations, places }) {
   const isLaptopOrSmaller = useIsLaptopOrSmaller();
 
   useEffect(() => {
-    if (!isHomePage) {
-      setIsHomePageSearchBarInViewport(false);
-      return;
-    }
+    if (!isHomePage) return;
 
     const check = () => {
       const el = document.getElementById('hero-search');

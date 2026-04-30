@@ -36,16 +36,13 @@ export function NearbyDestinations({ id, latitude, longitude }) {
       .then((data) => setDestinations(data));
   }, [id, latitude, longitude]);
 
-  // Reset to page 0 when visibleCount changes (e.g. window resize).
-  useEffect(() => {
-    setStartIndex(0);
-  }, [visibleCount]);
-
   if (destinations.length === 0) return null;
 
-  const hasPrev = startIndex > 0;
-  const hasNext = startIndex + visibleCount < destinations.length;
-  const visible = destinations.slice(startIndex, startIndex + visibleCount);
+  // Clamp so a window resize never strands us past the valid range.
+  const effectiveStart = Math.min(startIndex, Math.max(0, destinations.length - visibleCount));
+  const hasPrev = effectiveStart > 0;
+  const hasNext = effectiveStart + visibleCount < destinations.length;
+  const visible = destinations.slice(effectiveStart, effectiveStart + visibleCount);
 
   function navigate(dir) {
     if (animating) return;

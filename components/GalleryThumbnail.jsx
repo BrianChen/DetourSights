@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { motion } from "motion/react";
 import styles from "./GalleryThumbnail.module.css";
 
@@ -20,10 +21,12 @@ export function GalleryThumbnails({
         whileTap={{ scale: 0.99 }}
         transition={{ duration: 0.2 }}
       >
-        <img
+        <Image
           src={displayImages[0]}
           alt={label ? `${label} — photo 1` : 'Photo 1'}
+          fill
           className={styles.img}
+          sizes="(max-width: 767px) 50vw, 220px"
         />
         <div className={styles.overlay} />
       </motion.button>
@@ -42,10 +45,12 @@ export function GalleryThumbnails({
               whileTap={{ scale: 0.99 }}
               transition={{ duration: 0.2 }}
             >
-              <img
+              <Image
                 src={src}
                 alt={label ? `${label} — photo ${index + 1}` : `Photo ${index + 1}`}
+                fill
                 className={styles.img}
+                sizes="(max-width: 767px) 50vw, 110px"
               />
               <div className={styles.overlay} />
               {/* Show count badge on the last visible thumbnail if more exist */}

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './CarouselRow.module.css';
@@ -41,17 +41,13 @@ export default function CarouselRow({ children, pageSize = 5, responsiveCols }) 
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState(null);
 
-  // Reset to page 0 when visibleCount changes (e.g. window resize) so we
-  // never get stranded at an index past the new valid range.
-  useEffect(() => {
-    setStartIndex(0);
-  }, [visibleCount]);
-
   if (items.length === 0) return null;
 
-  const hasPrev = startIndex > 0;
-  const hasNext = startIndex + visibleCount < items.length;
-  const visible = items.slice(startIndex, startIndex + visibleCount);
+  // Clamp so a window resize never strands us past the valid range.
+  const effectiveStart = Math.min(startIndex, Math.max(0, items.length - visibleCount));
+  const hasPrev = effectiveStart > 0;
+  const hasNext = effectiveStart + visibleCount < items.length;
+  const visible = items.slice(effectiveStart, effectiveStart + visibleCount);
 
   function navigate(dir) {
     if (animating) return;
@@ -62,6 +58,8 @@ export default function CarouselRow({ children, pageSize = 5, responsiveCols }) 
       setAnimating(false);
     }, 300);
   }
+
+
 
   const animClass = animating
     ? direction === 'right' ? styles.slideOutLeft : styles.slideOutRight

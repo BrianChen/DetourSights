@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import styles from './Header.module.css';
@@ -38,9 +39,9 @@ export default async function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <a id="logo" href="/" className={styles.logo}>
+        <Link id="logo" href="/" className={styles.logo}>
           <Image src="/logo.png" alt="Detour Sights" height={68} width={133} className={styles.logoImg} />
-        </a>
+        </Link>
         <HeaderClient destinations={destinations} places={places} />
       </div>
     </header>

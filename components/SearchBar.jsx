@@ -24,11 +24,7 @@ export default function SearchBar({ compact = false }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (!debouncedQuery.trim()) {
-      setSuggestions([]);
-      setOpen(false);
-      return;
-    }
+    if (!debouncedQuery.trim()) return;
     fetch(`/api/destinations?search=${encodeURIComponent(debouncedQuery)}`)
       .then((r) => r.json())
       .then((data) => {
@@ -79,7 +75,7 @@ export default function SearchBar({ compact = false }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
-          onFocus={() => suggestions.length > 0 && setOpen(true)}
+          onFocus={() => query.trim() && suggestions.length > 0 && setOpen(true)}
           autoComplete="off"
         />
         {compact
@@ -87,7 +83,7 @@ export default function SearchBar({ compact = false }) {
           : <button className={styles.button} onClick={handleSearch}>Search</button>
         }
       </div>
-      {open && (
+      {open && !!debouncedQuery.trim() && (
         <ul className={styles.dropdown}>
           {suggestions.map((d, i) => (
             <li
