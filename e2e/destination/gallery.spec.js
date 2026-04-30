@@ -27,10 +27,11 @@ test.describe('Destination gallery', () => {
 
     test('close button dismisses the lightbox', async ({ page }) => {
       await page.getByAltText(`${LABEL} — photo 1`).click();
-      await expect(page.getByText('1 / 4')).toBeVisible();
+      const lightbox = page.getByRole('dialog', { name: 'Image gallery' });
+      await expect(lightbox.getByText('1 / 4')).toBeVisible();
 
-      await page.getByRole('button', { name: /close/i }).click();
-      await expect(page.getByText('1 / 4')).not.toBeVisible();
+      await lightbox.getByRole('button', { name: 'Close' }).click();
+      await expect(lightbox).not.toBeVisible();
     });
 
     test('Escape key closes the lightbox', async ({ page }) => {
@@ -52,46 +53,53 @@ test.describe('Destination gallery', () => {
   test.describe('Lightbox — navigation', () => {
     test.beforeEach(async ({ page }) => {
       await page.getByAltText(`${LABEL} — photo 1`).click();
-      await expect(page.getByText('1 / 4')).toBeVisible();
+      await expect(page.getByRole('dialog', { name: 'Image gallery' }).getByText('1 / 4')).toBeVisible();
     });
 
     test('Previous button is disabled on the first image', async ({ page }) => {
-      await expect(page.getByRole('button', { name: /previous/i })).toBeDisabled();
+      const lightbox = page.getByRole('dialog', { name: 'Image gallery' });
+      await expect(lightbox.locator('button[aria-label="Previous"]')).toBeDisabled();
     });
 
     test('Next button is enabled on the first image', async ({ page }) => {
-      await expect(page.getByRole('button', { name: /next/i })).toBeEnabled();
+      const lightbox = page.getByRole('dialog', { name: 'Image gallery' });
+      await expect(lightbox.getByRole('button', { name: 'Next' })).toBeEnabled();
     });
 
     test('Next button advances to the second image', async ({ page }) => {
-      await page.getByRole('button', { name: /next/i }).click();
-      await expect(page.getByText('2 / 4')).toBeVisible();
+      const lightbox = page.getByRole('dialog', { name: 'Image gallery' });
+      await lightbox.getByRole('button', { name: 'Next' }).click();
+      await expect(lightbox.getByText('2 / 4')).toBeVisible();
     });
 
     test('Previous button goes back after advancing', async ({ page }) => {
-      await page.getByRole('button', { name: /next/i }).click();
-      await page.getByRole('button', { name: /previous/i }).click();
-      await expect(page.getByText('1 / 4')).toBeVisible();
+      const lightbox = page.getByRole('dialog', { name: 'Image gallery' });
+      await lightbox.getByRole('button', { name: 'Next' }).click();
+      await lightbox.getByRole('button', { name: 'Previous' }).click();
+      await expect(lightbox.getByText('1 / 4')).toBeVisible();
     });
 
     test('ArrowRight navigates to the next image', async ({ page }) => {
+      const lightbox = page.getByRole('dialog', { name: 'Image gallery' });
       await page.keyboard.press('ArrowRight');
-      await expect(page.getByText('2 / 4')).toBeVisible();
+      await expect(lightbox.getByText('2 / 4')).toBeVisible();
     });
 
     test('ArrowLeft navigates to the previous image', async ({ page }) => {
+      const lightbox = page.getByRole('dialog', { name: 'Image gallery' });
       await page.keyboard.press('ArrowRight');
       await page.keyboard.press('ArrowLeft');
-      await expect(page.getByText('1 / 4')).toBeVisible();
+      await expect(lightbox.getByText('1 / 4')).toBeVisible();
     });
 
     test('Next button is disabled on the last image', async ({ page }) => {
+      const lightbox = page.getByRole('dialog', { name: 'Image gallery' });
       // Advance to last image (index 3 = "4 / 4")
       await page.keyboard.press('ArrowRight');
       await page.keyboard.press('ArrowRight');
       await page.keyboard.press('ArrowRight');
-      await expect(page.getByText('4 / 4')).toBeVisible();
-      await expect(page.getByRole('button', { name: /next/i })).toBeDisabled();
+      await expect(lightbox.getByText('4 / 4')).toBeVisible();
+      await expect(lightbox.locator('button[aria-label="Next"]')).toBeDisabled();
     });
 
     test('clicking second thumbnail opens lightbox at correct index', async ({ page }) => {

@@ -86,7 +86,7 @@ export default function HeaderMenu({ destinations, places }) {
               <div className={styles.dropdownInner}>
                 <div className={styles.dropdownHeader}>
                   <h2 className={styles.dropdownTitle}>{menuData[activeMenu].label}</h2>
-                  <button className={styles.closeBtn} onClick={() => setActiveMenu(null)}>
+                  <button className={styles.closeBtn} onClick={() => setActiveMenu(null)} aria-label="Close">
                     <X size={16} />
                   </button>
                 </div>

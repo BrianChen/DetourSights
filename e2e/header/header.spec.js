@@ -25,17 +25,19 @@ test.describe('Header', () => {
     });
 
     test('clicking Destinations opens dropdown with section headings', async ({ page }) => {
+      const header = page.getByRole('banner');
       await page.getByRole('button', { name: /destinations/i }).click();
-      await expect(page.getByText('Top Destinations')).toBeVisible();
-      await expect(page.getByText('Top Places')).toBeVisible();
+      await expect(header.getByText('Top Destinations')).toBeVisible();
+      await expect(header.getByText('Top Places')).toBeVisible();
     });
 
     test('X button closes the dropdown', async ({ page }) => {
+      const header = page.getByRole('banner');
       await page.getByRole('button', { name: /destinations/i }).click();
-      await expect(page.getByText('Top Destinations')).toBeVisible();
+      await expect(header.getByText('Top Destinations')).toBeVisible();
 
-      await page.getByRole('button', { name: /close/i }).click();
-      await expect(page.getByText('Top Destinations')).not.toBeVisible();
+      await header.getByRole('button', { name: /close/i }).click();
+      await expect(header.getByText('Top Destinations')).not.toBeVisible();
     });
 
     test('clicking Destinations button again closes the dropdown', async ({ page }) => {
@@ -51,21 +53,20 @@ test.describe('Header', () => {
   test.describe('Compact search bar (scrolled past hero)', () => {
     test('appears after scrolling past the hero search', async ({ page }) => {
       await page.goto('/');
+      const compactSearch = page.getByRole('banner').getByRole('button', { name: 'Search' });
 
-      // Compact search is not yet visible
-      await expect(page.getByRole('button', { name: 'Search' })).not.toBeVisible();
+      // Compact search inside header is not yet visible
+      await expect(compactSearch).not.toBeVisible();
 
-      // Scroll the hero search out of view
-      await page.locator('#hero-search').scrollIntoViewIfNeeded();
-      await page.evaluate(() => window.scrollBy(0, 200));
+      // Scroll far enough to move the hero section above the header
+      await page.evaluate(() => window.scrollTo(0, 600));
 
-      await expect(page.getByRole('button', { name: 'Search' })).toBeVisible();
+      await expect(compactSearch).toBeVisible();
     });
 
     test('Destinations menu is hidden after scrolling past hero', async ({ page }) => {
       await page.goto('/');
-      await page.locator('#hero-search').scrollIntoViewIfNeeded();
-      await page.evaluate(() => window.scrollBy(0, 200));
+      await page.evaluate(() => window.scrollTo(0, 600));
 
       await expect(page.getByRole('button', { name: /destinations/i })).not.toBeVisible();
     });

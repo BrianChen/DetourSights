@@ -8,7 +8,7 @@ import styles from './PersonalizedSuggestions.module.css';
 /** Reads the recentDestination cookie and renders 10 places from that destination. Returns null if no cookie or destination not found. */
 export default async function PersonalizedSuggestions() {
   const slug = await getRecentDestinationSlug();
-  if (!slug || !/^[a-z0-9-]+$/.test(slug)) return null;
+  if (!slug || !/^[a-z0-9_-]+$/.test(slug)) return null;
 
   const destination = await prisma.destination.findUnique({
     where: { slug },

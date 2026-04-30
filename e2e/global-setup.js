@@ -42,10 +42,10 @@ export default async function globalSetup() {
   if (existingImages === 0) {
     const images = await prisma.image.createManyAndReturn({
       data: [
-        { url: '/place-placeholder.jpg', altText: '__test-gallery-1' },
-        { url: '/place-placeholder.jpg', altText: '__test-gallery-2' },
-        { url: '/place-placeholder.jpg', altText: '__test-gallery-3' },
-        { url: '/place-placeholder.jpg', altText: '__test-gallery-4' },
+        { url: '/logo.png', altText: '__test-gallery-1' },
+        { url: '/logo.png', altText: '__test-gallery-2' },
+        { url: '/logo.png', altText: '__test-gallery-3' },
+        { url: '/logo.png', altText: '__test-gallery-4' },
       ],
     });
     await prisma.destinationImage.createMany({

@@ -61,13 +61,15 @@ export default function PlacesFilter({ places, destinationSlug }) {
         {filtered.map(place => (
           <a key={place.id} id={`place-${place.slug}`} href={`/${destinationSlug}/${place.slug}`} className={styles.card}>
             <div className={styles.imageWrap}>
-              <Image
-                src={place.coverImageUrl || '/place-placeholder.jpg'}
-                alt={place.name}
-                fill
-                className={styles.image}
-                sizes="(max-width: 767px) 100vw, 33vw" /* 767px = --tablet breakpoint (app/globals.css) */
-              />
+              {place.coverImageUrl && (
+                <Image
+                  src={place.coverImageUrl}
+                  alt={place.name}
+                  fill
+                  className={styles.image}
+                  sizes="(max-width: 767px) 100vw, 33vw" /* 767px = --tablet breakpoint (app/globals.css) */
+                />
+              )}
             </div>
             <div className={styles.cardBody}>
               <h2 className={styles.placeName}>{place.name}</h2>

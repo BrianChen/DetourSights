@@ -43,9 +43,12 @@ export function Gallery({ images, label, currentIndex, onClose, onNext, onPrevio
       onClick={onClose}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image gallery"
     >
       {/* Close button */}
-      <button onClick={onClose} className={styles.closeBtn}>
+      <button onClick={onClose} className={styles.closeBtn} aria-label="Close">
         <X size={32} />
       </button>
 
@@ -59,6 +62,7 @@ export function Gallery({ images, label, currentIndex, onClose, onNext, onPrevio
         onClick={(e) => { e.stopPropagation(); onPrevious(); }}
         className={styles.prevBtn}
         disabled={currentIndex === 0}
+        aria-label="Previous"
       >
         <ChevronLeft size={48} />
       </button>
@@ -67,6 +71,7 @@ export function Gallery({ images, label, currentIndex, onClose, onNext, onPrevio
         onClick={(e) => { e.stopPropagation(); onNext(); }}
         className={styles.nextBtn}
         disabled={currentIndex === images.length - 1}
+        aria-label="Next"
       >
         <ChevronRight size={48} />
       </button>
