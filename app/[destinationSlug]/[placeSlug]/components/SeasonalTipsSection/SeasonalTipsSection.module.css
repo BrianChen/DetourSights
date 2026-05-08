@@ -1,0 +1,103 @@
+.seasonalGroups {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.seasonalGroup {
+  flex: 1;
+  min-width: 0;
+}
+
+.seasonalGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.seasonalGroupLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-muted);
+}
+
+.seasonalGroupBadgeGood {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 800;
+  background: var(--color-accent);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.seasonalGroupBadgeAvoid {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 800;
+  background: var(--color-border);
+  color: var(--color-ink-muted);
+  flex-shrink: 0;
+}
+
+.seasonalList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seasonalTip {
+  display: block;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+}
+
+.seasonalGood {
+  background: var(--color-accent-light);
+  border-color: rgba(232, 96, 44, 0.15);
+}
+
+.seasonalAvoid {
+  background: var(--color-surface-alt);
+  border-color: var(--color-border);
+}
+
+.seasonalLabel {
+  font-size: 0.87rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.seasonalReason {
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.seasonalGood .seasonalReason {
+  color: var(--color-ink-secondary);
+}
+
+.seasonalAvoid .seasonalReason {
+  color: var(--color-ink-muted);
+}
+
+@media (--tablet) {
+  .seasonalGroups {
+    flex-direction: column;
+  }
+}

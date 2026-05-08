@@ -1,0 +1,54 @@
+/* ─── Section layout — used by content section components ─────────────────── */
+
+.section {
+  margin-bottom: 52px;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  position: relative;
+}
+
+/* Full-width gray rule + short terracotta accent — editorial underline */
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+
+
+/* ─── Sidebar card — used by PlaceDetailsCard and WhatToBringCard ─────────── */
+
+.sidebarCard {
+  /* wrapper — visual styling lives on child elements */
+}
+
+.sidebarCardTitle {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  position: relative;
+}
+
+.sidebarCardTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+

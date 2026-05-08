@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 
 const placeInclude = {
   destination: true,
+  aiGenData: true,
   categories: { include: { category: true } },
 };
 
@@ -24,13 +25,13 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const { name, slug, description, address, latitude, longitude, website, phone, priceRange, destinationId, categoryIds = [] } = await request.json();
+  const { name, slug, address, latitude, longitude, website, phone, priceRange, destinationId, categoryIds = [] } = await request.json();
   if (!name || !slug || !destinationId) {
     return NextResponse.json({ error: 'name, slug, and destinationId are required' }, { status: 400 });
   }
   const place = await prisma.place.create({
     data: {
-      name, slug, description, address, latitude, longitude, website, phone, priceRange, destinationId,
+      name, slug, address, latitude, longitude, website, phone, priceRange, destinationId,
       categories: { create: categoryIds.map((categoryId) => ({ categoryId })) },
     },
     include: placeInclude,

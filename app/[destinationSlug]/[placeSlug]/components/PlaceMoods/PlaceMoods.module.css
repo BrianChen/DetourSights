@@ -1,0 +1,17 @@
+.moods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.moodTag {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-ink-secondary);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.1px;
+}

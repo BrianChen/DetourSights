@@ -22,11 +22,11 @@ export default async function PersonalizedSuggestions() {
           id: true,
           name: true,
           slug: true,
-          description: true,
+          aiGenData: { select: { description: true } },
           coverImageUrl: true,
           categories: {
             take: 1,
-            include: { category: { select: { name: true, icon: true } } },
+            select: { category: { select: { name: true, icon: true } } },
           },
         },
       },
@@ -68,8 +68,8 @@ export default async function PersonalizedSuggestions() {
                     </span>
                   )}
                   <p className={styles.cardName}>{place.name}</p>
-                  {place.description && (
-                    <p className={styles.cardDescription}>{place.description}</p>
+                  {place.aiGenData?.description && (
+                    <p className={styles.cardDescription}>{place.aiGenData.description}</p>
                   )}
                 </div>
               </Link>

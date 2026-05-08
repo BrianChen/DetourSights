@@ -1,18 +1,50 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import styles from './PlacePage.module.css';
 import SetRecentDestination from '@/components/SetRecentDestination';
 import PlaceMap from '@/components/PlaceMap';
+import PlaceHero from './components/PlaceHero/PlaceHero';
+import PlaceMoods from './components/PlaceMoods/PlaceMoods';
+import LocalTipsSection from './components/LocalTipsSection/LocalTipsSection';
+import SeasonalTipsSection from './components/SeasonalTipsSection/SeasonalTipsSection';
+import PlaceDetailsCard from './components/PlaceDetailsCard/PlaceDetailsCard';
+import WhatToBringCard from './components/WhatToBringCard/WhatToBringCard';
+
+const PRICE_RANGE_MAP = {
+  FREE: 'Free',
+  BUDGET: '$',
+  MODERATE: '$$',
+  EXPENSIVE: '$$$',
+};
+
+const CATEGORY_SECTIONS = {
+  'sights-and-landmarks':       ['description', 'localTips', 'seasonalTips', 'whatToBring'],
+  'nature-outdoors':            ['description', 'localTips', 'seasonalTips', 'whatToBring'],
+  'food-and-drink':             ['description', 'localTips'],
+  'nightlife':                  ['description', 'localTips'],
+  'shopping':                   ['description', 'localTips'],
+  'arts-and-entertainment':     ['description', 'localTips'],
+  'activities-and-experiences': ['description', 'localTips', 'seasonalTips', 'whatToBring'],
+};
+
+const CATEGORY_SCHEMA_TYPE = {
+  'sights-and-landmarks': 'TouristAttraction',
+  'nature-outdoors': 'Park',
+  'food-and-drink': 'FoodEstablishment',
+  'nightlife': 'BarOrPub',
+  'shopping': 'Store',
+  'arts-and-entertainment': 'EntertainmentBusiness',
+  'activities-and-experiences': 'TouristAttraction',
+};
 
 export async function generateMetadata({ params }) {
   const { placeSlug } = await params;
   const place = await prisma.place.findUnique({
     where: { slug: placeSlug },
-    include: { destination: true },
+    include: { destination: true, aiGenData: true },
   });
   if (!place) return {};
-  const description = place.description
+  const description = place.aiGenData?.description
     ?? `Discover ${place.name} in ${place.destination?.name ?? 'this destination'}.`;
   return {
     title: `${place.name} — Detour Sights`,
@@ -43,9 +75,12 @@ export default async function PlacePage({ params }) {
     where: { slug: placeSlug },
     include: {
       destination: true,
+      aiGenData: true,
       categories: { include: { category: true } },
       photos: true,
       reviews: { include: { user: true }, orderBy: { createdAt: 'desc' } },
+      moods: { include: { mood: true } },
+      seasonalTips: true,
     },
   });
 
@@ -58,21 +93,8 @@ export default async function PlacePage({ params }) {
 
   const hasMap = place.latitude != null && place.longitude != null;
 
-  const CATEGORY_SCHEMA_TYPE = {
-    food: 'FoodEstablishment',
-    activity: 'TouristAttraction',
-    attraction: 'TouristAttraction',
-    nightlife: 'BarOrPub',
-    shopping: 'Store',
-    nature: 'Park',
-  };
-
-  const PRICE_RANGE_MAP = {
-    FREE: 'Free',
-    BUDGET: '$',
-    MODERATE: '$$',
-    EXPENSIVE: '$$$',
-  };
+  const categorySlugs = place.categories.map(({ category }) => category.slug);
+  const visibleSections = new Set(categorySlugs.flatMap(slug => CATEGORY_SECTIONS[slug] ?? []));
 
   const schemaTypes = [...new Set(
     place.categories.map(({ category }) => CATEGORY_SCHEMA_TYPE[category.slug] ?? 'TouristAttraction')
@@ -82,7 +104,7 @@ export default async function PlacePage({ params }) {
     '@context': 'https://schema.org',
     '@type': schemaTypes.length === 1 ? schemaTypes[0] : schemaTypes,
     name: place.name,
-    description: place.description ?? `Discover ${place.name} in ${place.destination.name}.`,
+    description: place.aiGenData?.description ?? `Discover ${place.name} in ${place.destination.name}.`,
     url: `https://www.detoursights.com/${place.destination.slug}/${place.slug}`,
     ...(place.coverImageUrl && { image: place.coverImageUrl }),
     ...(place.address && { address: place.address }),
@@ -120,83 +142,50 @@ export default async function PlacePage({ params }) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <SetRecentDestination slug={place.destination.slug} />
 
-      <section className={styles.hero}>
-        {place.coverImageUrl && (
-          <Image
-            src={place.coverImageUrl}
-            alt={place.name}
-            fill
-            className={styles.heroImage}
-            priority
-            sizes="100vw"
-          />
-        )}
-        <div className={styles.heroOverlay} />
-        <div className={styles.heroContent}>
-          <div className={styles.heroInfo}>
-            <div className={styles.breadcrumb}>
-              <a id="breadcrumb-destination" href={`/${destinationSlug}`}>{place.destination.name}</a>
-              <span> / </span>
-              <span>{place.name}</span>
+      <PlaceHero
+        place={place}
+        destinationSlug={destinationSlug}
+        priceLabel={PRICE_RANGE_MAP[place.priceRange]}
+        avgRating={avgRating}
+      />
+
+      <div className={styles.pageBody}>
+
+        <main className={styles.mainCol}>
+          <PlaceMoods moods={place.moods} />
+
+          {visibleSections.has('description') && place.aiGenData?.description && (
+            <div className={styles.description}>
+              {place.aiGenData.description.split('\n\n').map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
             </div>
-            <h1 className={styles.name}>{place.name}</h1>
-            <div className={styles.meta}>
-              <div className={styles.tags}>
-                {place.categories.map(({ category }) => (
-                  <span key={category.id} className={styles.tag}>
-                    {category.icon} {category.name}
-                  </span>
-                ))}
-                {place.priceRange && <span className={styles.price}>{place.priceRange}</span>}
-              </div>
-              {avgRating && (
-                <span className={styles.rating}>★ {avgRating} ({place.reviews.length} reviews)</span>
-              )}
-            </div>
-          </div>
+          )}
+
+          {visibleSections.has('localTips') && (
+            <LocalTipsSection localTips={place.aiGenData?.localTips} />
+          )}
+          {visibleSections.has('seasonalTips') && (
+            <SeasonalTipsSection seasonalTips={place.seasonalTips} />
+          )}
+        </main>
+
+        <aside className={styles.sidebar}>
           {hasMap && (
-            <div className={styles.heroMap}>
+            <div className={styles.sidebarMap}>
               <PlaceMap latitude={place.latitude} longitude={place.longitude} name={place.name} />
             </div>
           )}
-        </div>
-      </section>
-
-      <div className={styles.content}>
-        {place.description && <p className={styles.description}>{place.description}</p>}
-
-        <div className={styles.details}>
-          {place.address && <p>📍 {place.address}</p>}
-          {place.phone && <p>📞 {place.phone}</p>}
-          {place.website && (
-            <p>🌐 <a href={place.website} target="_blank" rel="noopener noreferrer">{place.website}</a></p>
+          <PlaceDetailsCard place={place} categorySlugs={categorySlugs} />
+          {visibleSections.has('whatToBring') && (
+            <WhatToBringCard whatToBring={place.aiGenData?.whatToBring} />
           )}
-        </div>
+        </aside>
 
-        {place.reviews.length > 0 && (
-          <div className={styles.reviews}>
-            <h2>Reviews</h2>
-            {place.reviews.map((review) => (
-              <div key={review.id} className={styles.review}>
-                <div className={styles.reviewHeader}>
-                  <strong>{review.user.name}</strong>
-                  <span>{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</span>
-                </div>
-                {review.body && <p>{review.body}</p>}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </>
   );

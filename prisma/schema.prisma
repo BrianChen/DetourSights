@@ -28,6 +28,12 @@ enum IndoorOutdoor {
   BOTH
 }
 
+enum ConfidenceLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
+
 // ─── Models ──────────────────────────────────────────────────────────────────
 
 model Destination {
@@ -47,6 +53,7 @@ model Destination {
   places        Place[]
   images        DestinationImage[]
   featuredEntry FeaturedDestination?
+  seasonalTips  SeasonalTipAiGen[]
 
   @@index([name])
 }
@@ -94,45 +101,71 @@ model Category {
 }
 
 model Place {
-  id          Int        @id @default(autoincrement())
-  name        String
-  slug        String     @unique
-  description String?
-  address     String?
-  latitude    Float?
-  longitude   Float?
-  website     String?
-  phone       String?
-  priceRange           PriceRange?
-  tagline              String?
-  whyVisit             String[]
-  neighbourhood        String?
-  bestTimeToVisit      String?
-  howLongToSpend       String?
-  bookingRequired      Boolean?
-  bookInAdvanceWarning String?
-  dressCode            String?
-  localTips            String[]
-  historyBackground    String?
-  whatToExpect         String?
-  whatToBring          String[]
-  indoorOutdoor        IndoorOutdoor?
-  weatherDependent     Boolean?
-  createdAt            DateTime   @default(now())
-  updatedAt            DateTime   @updatedAt
-
+  id            Int         @id @default(autoincrement())
+  name          String
+  slug          String      @unique
+  address       String?
+  latitude      Float?
+  longitude     Float?
+  website       String?
+  phone         String?
+  priceRange    PriceRange?
   coverImageUrl String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
   destinationId Int
   destination   Destination @relation(fields: [destinationId], references: [id])
 
+  aiGenData     PlaceAiGenData?
   categories    PlaceCategory[]
   moods         PlaceMood[]
   reviews       Review[]
   photos        Photo[]
   featuredEntry FeaturedPlace?
+  seasonalTips  SeasonalTipAiGen[]
 
   @@index([destinationId])
+}
+
+model PlaceAiGenData {
+  id      Int   @id @default(autoincrement())
+  placeId Int   @unique
+  place   Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  // Generated content + confidence score per field
+  tagline                      String?
+  taglineConfidence            ConfidenceLevel?
+  description                  String?
+  descriptionConfidence        ConfidenceLevel?
+  whyVisit                     String[]
+  whyVisitConfidence           ConfidenceLevel?
+  neighbourhood                String?
+  neighbourhoodConfidence      ConfidenceLevel?
+  howLongToSpend               String?
+  howLongToSpendConfidence     ConfidenceLevel?
+  bookingRequired              Boolean?
+  bookingRequiredConfidence    ConfidenceLevel?
+  bookInAdvanceWarning         String?
+  bookInAdvanceWarningConfidence ConfidenceLevel?
+  dressCode                    String?
+  dressCodeConfidence          ConfidenceLevel?
+  localTips                    String[]
+  localTipsConfidence          ConfidenceLevel?
+  whatToBring                  String[]
+  whatToBringConfidence        ConfidenceLevel?
+  indoorOutdoor                IndoorOutdoor?
+  indoorOutdoorConfidence      ConfidenceLevel?
+  weatherDependent             Boolean?
+  weatherDependentConfidence   ConfidenceLevel?
+  moodsConfidence              ConfidenceLevel?
+
+  // Audit
+  generatedAt  DateTime?
+  modelVersion String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PlaceCategory {
@@ -209,6 +242,23 @@ model Photo {
 
   @@index([placeId])
   @@index([userId])
+}
+
+// Exactly one of placeId or destinationId must be set (enforced via check constraint in migration).
+model SeasonalTipAiGen {
+  id            Int          @id @default(autoincrement())
+  label         String
+  reason        String
+  avoid         Boolean      @default(false)
+
+  placeId       Int?
+  destinationId Int?
+
+  place         Place?       @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  destination   Destination? @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+
+  @@index([placeId])
+  @@index([destinationId])
 }
 
 // Curated list of featured places shown on the homepage.

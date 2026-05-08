@@ -1,0 +1,24 @@
+.bringList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.bringItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 0.95rem;
+  color: var(--color-ink-secondary);
+  line-height: 1.55;
+}
+
+.bringCheck {
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
