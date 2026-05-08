@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 
 export default async function globalSetup() {
   const [food, attraction] = await Promise.all([
-    prisma.category.findUniqueOrThrow({ where: { slug: 'food' } }),
-    prisma.category.findUniqueOrThrow({ where: { slug: 'attraction' } }),
+    prisma.category.findUniqueOrThrow({ where: { slug: 'food-and-drink' } }),
+    prisma.category.findUniqueOrThrow({ where: { slug: 'sights-and-landmarks' } }),
   ]);
 
   const destination = await prisma.destination.upsert({

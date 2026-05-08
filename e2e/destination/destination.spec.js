@@ -24,7 +24,7 @@ test.describe('Destination page', () => {
     const filterGroup = page.getByRole('group', { name: 'Filter by category' });
     await expect(filterGroup).toBeVisible();
     await expect(filterGroup.getByRole('button', { name: /food/i })).toBeVisible();
-    await expect(filterGroup.getByRole('button', { name: /attraction/i })).toBeVisible();
+    await expect(filterGroup.getByRole('button', { name: /sights/i })).toBeVisible();
   });
 
   test('filter pill toggles active state on click', async ({ page }) => {

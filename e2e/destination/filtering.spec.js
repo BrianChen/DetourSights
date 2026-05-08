@@ -26,8 +26,8 @@ test.describe('Place filtering', () => {
   });
 
   test.describe('Single category filter', () => {
-    test('Attraction filter shows attraction places and hides food-only place', async ({ page }) => {
-      await filterGroup.getByRole('button', { name: /attraction/i }).click();
+    test('Sights & Landmarks filter shows attraction places and hides food-only place', async ({ page }) => {
+      await filterGroup.getByRole('button', { name: /sights/i }).click();
 
       await expect(page.locator(`#place-${PLACES.attraction.slug}`)).toBeVisible();
       await expect(page.locator(`#place-${PLACES.both.slug}`)).toBeVisible();
@@ -51,26 +51,26 @@ test.describe('Place filtering', () => {
   });
 
   test.describe('Multi-select', () => {
-    test('selecting Food and Attraction shows all places', async ({ page }) => {
+    test('selecting Food and Sights shows all places', async ({ page }) => {
       await filterGroup.getByRole('button', { name: /food/i }).click();
-      await filterGroup.getByRole('button', { name: /attraction/i }).click();
+      await filterGroup.getByRole('button', { name: /sights/i }).click();
 
       await expect(page.locator(`#place-${PLACES.food.slug}`)).toBeVisible();
       await expect(page.locator(`#place-${PLACES.attraction.slug}`)).toBeVisible();
       await expect(page.locator(`#place-${PLACES.both.slug}`)).toBeVisible();
     });
 
-    test('both pills are aria-pressed when both selected', async () => {
+    test('both pills are aria-pressed when both selected', async ({ page }) => {
       await filterGroup.getByRole('button', { name: /food/i }).click();
-      await filterGroup.getByRole('button', { name: /attraction/i }).click();
+      await filterGroup.getByRole('button', { name: /sights/i }).click();
 
       await expect(filterGroup.getByRole('button', { name: /food/i })).toHaveAttribute('aria-pressed', 'true');
-      await expect(filterGroup.getByRole('button', { name: /attraction/i })).toHaveAttribute('aria-pressed', 'true');
+      await expect(filterGroup.getByRole('button', { name: /sights/i })).toHaveAttribute('aria-pressed', 'true');
     });
 
     test('deselecting one category from multi-select re-applies the remaining filter', async ({ page }) => {
       await filterGroup.getByRole('button', { name: /food/i }).click();
-      await filterGroup.getByRole('button', { name: /attraction/i }).click();
+      await filterGroup.getByRole('button', { name: /sights/i }).click();
 
       // Deselect Food — only Attraction remains
       await filterGroup.getByRole('button', { name: /food/i }).click();
@@ -89,11 +89,11 @@ test.describe('Place filtering', () => {
 
     test('resets all active filters', async ({ page }) => {
       await filterGroup.getByRole('button', { name: /food/i }).click();
-      await filterGroup.getByRole('button', { name: /attraction/i }).click();
+      await filterGroup.getByRole('button', { name: /sights/i }).click();
       await filterGroup.getByRole('button', { name: /clear/i }).click();
 
       await expect(filterGroup.getByRole('button', { name: /food/i })).toHaveAttribute('aria-pressed', 'false');
-      await expect(filterGroup.getByRole('button', { name: /attraction/i })).toHaveAttribute('aria-pressed', 'false');
+      await expect(filterGroup.getByRole('button', { name: /sights/i })).toHaveAttribute('aria-pressed', 'false');
       await expect(page.locator(`#place-${PLACES.food.slug}`)).toBeVisible();
       await expect(page.locator(`#place-${PLACES.attraction.slug}`)).toBeVisible();
       await expect(page.locator(`#place-${PLACES.both.slug}`)).toBeVisible();
