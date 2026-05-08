@@ -11,7 +11,7 @@
     "db:seed": "node prisma/seed.js",
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
-    "script:get-images": "node lib/scripts/get-images.js",
+    "script:get-destination-images": "node lib/scripts/images/get-destination-images.js",
     "script:export-images": "node lib/scripts/export-images.js",
     "script:load-images": "node lib/scripts/load-images.js",
     "script:populate-place-descriptions": "node lib/scripts/places/populate-place-descriptions.js",
