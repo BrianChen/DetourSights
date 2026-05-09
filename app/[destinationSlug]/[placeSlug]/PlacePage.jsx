@@ -7,6 +7,7 @@ import PlaceHero from './components/PlaceHero/PlaceHero';
 import PlaceMoods from './components/PlaceMoods/PlaceMoods';
 import LocalTipsSection from './components/LocalTipsSection/LocalTipsSection';
 import SeasonalTipsSection from './components/SeasonalTipsSection/SeasonalTipsSection';
+import WhyVisitSection from './components/WhyVisitSection/WhyVisitSection';
 import PlaceDetailsCard from './components/PlaceDetailsCard/PlaceDetailsCard';
 import WhatToBringCard from './components/WhatToBringCard/WhatToBringCard';
 
@@ -94,7 +95,8 @@ export default async function PlacePage({ params }) {
   const hasMap = place.latitude != null && place.longitude != null;
 
   const categorySlugs = place.categories.map(({ category }) => category.slug);
-  const visibleSections = new Set(categorySlugs.flatMap(slug => CATEGORY_SECTIONS[slug] ?? []));
+  const visibleSections = new Set(['description', 'localTips', 'seasonalTips', 'whatToBring']);
+  // const visibleSections = new Set(categorySlugs.flatMap(slug => CATEGORY_SECTIONS[slug] ?? []));
 
   const schemaTypes = [...new Set(
     place.categories.map(({ category }) => CATEGORY_SCHEMA_TYPE[category.slug] ?? 'TouristAttraction')
@@ -172,6 +174,7 @@ export default async function PlacePage({ params }) {
           {visibleSections.has('seasonalTips') && (
             <SeasonalTipsSection seasonalTips={place.seasonalTips} />
           )}
+          <WhyVisitSection whyVisit={place.aiGenData?.whyVisit} />
         </main>
 
         <aside className={styles.sidebar}>

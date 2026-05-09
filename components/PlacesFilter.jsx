@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import styles from './PlacesFilter.module.css';
 
-export default function PlacesFilter({ places, destinationSlug }) {
+export default function PlacesFilter({ places, destinationSlug, destinationCoverImageUrl }) {
   const [selected, setSelected] = useState(new Set());
 
   // Derive unique categories from this destination's places only
@@ -61,9 +61,9 @@ export default function PlacesFilter({ places, destinationSlug }) {
         {filtered.map(place => (
           <a key={place.id} id={`place-${place.slug}`} href={`/${destinationSlug}/${place.slug}`} className={styles.card}>
             <div className={styles.imageWrap}>
-              {place.coverImageUrl && (
+              {(place.coverImageUrl ?? destinationCoverImageUrl) && (
                 <Image
-                  src={place.coverImageUrl}
+                  src={place.coverImageUrl ?? destinationCoverImageUrl}
                   alt={place.name}
                   fill
                   className={styles.image}

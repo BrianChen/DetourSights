@@ -14,7 +14,7 @@ async function main() {
   ]);
 
   // ─── Categories ───────────────────────────────────────────────────────────
-  const [sights, natureOutdoors, foodAndDrink, nightlife, shopping, artsAndEntertainment, activitiesAndExperiences] = await Promise.all([
+  const [sights, natureOutdoors, foodAndDrink, nightlife, shopping, artsAndEntertainment, activitiesAndExperiences, neighborhoods] = await Promise.all([
     prisma.category.upsert({ where: { slug: 'sights-and-landmarks' },      update: { name: 'Sights & Landmarks',      icon: '🏛️' }, create: { name: 'Sights & Landmarks',      slug: 'sights-and-landmarks',      icon: '🏛️' } }),
     prisma.category.upsert({ where: { slug: 'nature-outdoors' },           update: { name: 'Nature & Outdoors',       icon: '🌿' }, create: { name: 'Nature & Outdoors',       slug: 'nature-outdoors',           icon: '🌿' } }),
     prisma.category.upsert({ where: { slug: 'food-and-drink' },            update: { name: 'Food & Drink',            icon: '🍽️' }, create: { name: 'Food & Drink',            slug: 'food-and-drink',            icon: '🍽️' } }),
@@ -22,9 +22,10 @@ async function main() {
     prisma.category.upsert({ where: { slug: 'shopping' },                  update: { name: 'Shopping',                icon: '🛍️' }, create: { name: 'Shopping',                slug: 'shopping',                  icon: '🛍️' } }),
     prisma.category.upsert({ where: { slug: 'arts-and-entertainment' },    update: { name: 'Arts & Entertainment',    icon: '🎭' }, create: { name: 'Arts & Entertainment',    slug: 'arts-and-entertainment',    icon: '🎭' } }),
     prisma.category.upsert({ where: { slug: 'activities-and-experiences'}, update: { name: 'Activities & Experiences',icon: '🎯' }, create: { name: 'Activities & Experiences',slug: 'activities-and-experiences', icon: '🎯' } }),
+    prisma.category.upsert({ where: { slug: 'neighborhoods' },             update: { name: 'Neighborhoods',           icon: '🏘️' }, create: { name: 'Neighborhoods',           slug: 'neighborhoods',             icon: '🏘️' } }),
   ]);
 
-  const cat = { sights, natureOutdoors, foodAndDrink, nightlife, shopping, artsAndEntertainment, activitiesAndExperiences };
+  const cat = { sights, natureOutdoors, foodAndDrink, nightlife, shopping, artsAndEntertainment, activitiesAndExperiences, neighborhoods };
 
   async function assignCategories(placeId, cats) {
     for (const c of cats) {
@@ -151,7 +152,7 @@ async function main() {
 
   const d = destinations; // shorthand
 
-  // ─── Places (100) ─────────────────────────────────────────────────────────
+  // ─── Places (200) ─────────────────────────────────────────────────────────
   const placesData = [
     // New York
     { name: 'Central Park',                    slug: 'central-park',                  dest: 'new-york',          cats: [cat.sights, cat.natureOutdoors],                        address: 'Central Park, New York, NY',               lat: 40.7851,  lng: -73.9683, price: 'FREE' },
@@ -277,6 +278,106 @@ async function main() {
     // Zanzibar
     { name: 'Stone Town',                      slug: 'stone-town',                    dest: 'zanzibar',          cats: [cat.sights, cat.shopping],                              address: 'Stone Town, Zanzibar City, Tanzania',       lat: -6.1628,  lng: 39.1892,  price: 'FREE' },
     { name: 'Nungwi Beach',                    slug: 'nungwi-beach',                  dest: 'zanzibar',          cats: [cat.natureOutdoors],                                    address: 'Nungwi, Zanzibar North A, Tanzania',        lat: -5.7238,  lng: 39.2975,  price: 'FREE' },
+    { name: 'Musée d\'Orsay', slug: 'musee-d-orsay', dest: 'paris', cats: [], address: 'Esplanade Valéry Giscard d\'Estaing, 75007 Paris, France', lat: 48.859961399999996, lng: 2.3265614,  },
+    { name: 'Notre-Dame Cathedral', slug: 'notre-dame-cathedral', dest: 'paris', cats: [], address: '6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris, France', lat: 48.85296820000001, lng: 2.3499021,  },
+    { name: 'Luxembourg Gardens', slug: 'luxembourg-gardens', dest: 'paris', cats: [], address: '75006 Paris, France', lat: 48.8466144, lng: 2.3363309,  },
+    { name: 'Arc de Triomphe', slug: 'arc-de-triomphe', dest: 'paris', cats: [], address: 'Pl. Charles de Gaulle, 75008 Paris, France', lat: 48.8737917, lng: 2.2950274999999998,  },
+    { name: 'Sacré-Cœur', slug: 'sacre-coeur', dest: 'paris', cats: [], address: '35 Rue du Chevalier de la Barre, 75018 Paris, France', lat: 48.886704599999995, lng: 2.3431043,  },
+    { name: 'Palais Garnier', slug: 'palais-garnier', dest: 'paris', cats: [], address: 'Pl. de l\'Opéra, 75009 Paris, France', lat: 48.8719697, lng: 2.3316014,  },
+    { name: 'Sainte-Chapelle', slug: 'sainte-chapelle', dest: 'paris', cats: [], address: '10 Bd du Palais, 75001 Paris, France', lat: 48.855374999999995, lng: 2.3449609,  },
+    { name: 'Le Marais', slug: 'le-marais', dest: 'paris', cats: [], address: 'Le Marais, Paris, France', lat: 48.861232699999995, lng: 2.3581892,  },
+    { name: 'The Seine', slug: 'the-seine', dest: 'paris', cats: [], address: 'Seine, France', lat: 48.6382687, lng: 2.4489006,  },
+    { name: 'Shinjuku Gyoen', slug: 'shinjuku-gyoen', dest: 'tokyo', cats: [], address: '11 Naitōmachi, Shinjuku City, Tokyo 160-0014, Japan', lat: 35.685176299999995, lng: 139.7100517,  },
+    { name: 'Senso-ji Temple', slug: 'senso-ji-temple', dest: 'tokyo', cats: [], address: '2-chōme-3-1 Asakusa, Taito City, Tokyo 111-0032, Japan', lat: 35.7147651, lng: 139.7966553,  },
+    { name: 'teamLab Planets', slug: 'teamlab-planets', dest: 'tokyo', cats: [], address: '6-chōme-1-16 Toyosu, Koto City, Tokyo 135-0061, Japan', lat: 35.6491207, lng: 139.7897739,  },
+    { name: 'Meiji Shrine', slug: 'meiji-shrine', dest: 'tokyo', cats: [], address: '1-1 Yoyogikamizonochō, Shibuya, Tokyo 151-8557, Japan', lat: 35.6763976, lng: 139.6993259,  },
+    { name: 'Tokyo Tower', slug: 'tokyo-tower', dest: 'tokyo', cats: [], address: '4-chōme-2-8 Shibakōen, Minato City, Tokyo 105-0011, Japan', lat: 35.6585805, lng: 139.7454329,  },
+    { name: 'Asakusa', slug: 'asakusa', dest: 'tokyo', cats: [], address: 'Asakusa, Taito City, Tokyo 111-0032, Japan', lat: 35.7185858, lng: 139.7958849,  },
+    { name: 'Ueno Park', slug: 'ueno-park', dest: 'tokyo', cats: [], address: '4 Uenokoen, Taito City, Tokyo 110-0007, Japan', lat: 35.7147557, lng: 139.7734312,  },
+    { name: 'Akihabara', slug: 'akihabara', dest: 'tokyo', cats: [], address: 'Akihabara Electric Town, Tokyo, Japan', lat: 35.699647299999995, lng: 139.7713703,  },
+    { name: 'Tokyo Skytree', slug: 'tokyo-skytree', dest: 'tokyo', cats: [], address: '1-chōme-1-2 Oshiage, Sumida City, Tokyo 131-0045, Japan', lat: 35.7100627, lng: 139.81070040000003,  },
+    { name: 'Ginza', slug: 'ginza', dest: 'tokyo', cats: [], address: 'Ginza, Chuo City, Tokyo 104-0061, Japan', lat: 35.671222799999995, lng: 139.7664859,  },
+    { name: 'Tokyo National Museum', slug: 'tokyo-national-museum', dest: 'tokyo', cats: [], address: '13-9 Uenokōen, Taito City, Tokyo 110-8712, Japan', lat: 35.7188351, lng: 139.7765215,  },
+    { name: '9/11 Memorial & Museum', slug: '9-11-memorial-museum', dest: 'new-york', cats: [], address: '180 Greenwich St, New York, NY 10007, USA', lat: 40.7115776, lng: -74.0133362,  },
+    { name: 'Empire State Building', slug: 'empire-state-building', dest: 'new-york', cats: [], address: '20 W 34th St., New York, NY 10001, USA', lat: 40.7484405, lng: -73.98566439999999,  },
+    { name: 'Top of the Rock', slug: 'top-of-the-rock', dest: 'new-york', cats: [], address: '30 Rockefeller Plaza, New York, NY 10112, USA', lat: 40.7593495, lng: -73.9794087,  },
+    { name: 'The High Line', slug: 'the-high-line', dest: 'new-york', cats: [], address: 'New York, NY 10011, USA', lat: 40.747992499999995, lng: -74.0047649,  },
+    { name: 'Times Square', slug: 'times-square', dest: 'new-york', cats: [], address: 'Manhattan, NY 10036, USA', lat: 40.7579747, lng: -73.9855426,  },
+    { name: 'Statue of Liberty', slug: 'statue-of-liberty', dest: 'new-york', cats: [], address: 'New York, NY 10004, USA', lat: 40.6892494, lng: -74.04450039999999,  },
+    { name: 'Grand Central Terminal', slug: 'grand-central-terminal', dest: 'new-york', cats: [], address: '89 E 42nd St, New York, NY 10017, USA', lat: 40.7533582, lng: -73.9768041, price: 'MODERATE' },
+    { name: 'American Museum of Natural History', slug: 'american-museum-of-natural-history', dest: 'new-york', cats: [], address: '200 Central Prk W, New York, NY 10024, USA', lat: 40.7813241, lng: -73.9739882,  },
+    { name: 'New York Public Library', slug: 'new-york-public-library', dest: 'new-york', cats: [], address: '476 5th Ave, New York, NY 10018, USA', lat: 40.753182300000006, lng: -73.9822534, price: 'FREE' },
+    { name: 'Casa Batlló', slug: 'casa-batllo', dest: 'barcelona', cats: [], address: 'Pg. de Gràcia, 43, Eixample, 08007 Barcelona, Spain', lat: 41.3917, lng: 2.164918,  },
+    { name: 'Gothic Quarter', slug: 'gothic-quarter', dest: 'barcelona', cats: [], address: 'Gothic Quarter, Ciutat Vella, Barcelona, Spain', lat: 41.3819247, lng: 2.1773051999999997,  },
+    { name: 'Palau de la Música Catalana', slug: 'palau-de-la-musica-catalana', dest: 'barcelona', cats: [], address: 'C/ Palau de la Música, 4-6, Ciutat Vella, 08003 Barcelona, Spain', lat: 41.3875752, lng: 2.1753128,  },
+    { name: 'La Pedrera', slug: 'la-pedrera', dest: 'barcelona', cats: [], address: 'Pg. de Gràcia, 92, Eixample, 08008 Barcelona, Spain', lat: 41.3952155, lng: 2.1619024,  },
+    { name: 'The Magic Fountain', slug: 'the-magic-fountain', dest: 'barcelona', cats: [], address: 'Pl. de Carles Buïgas, Sants-Montjuïc, 08038 Barcelona, Spain', lat: 41.3711603, lng: 2.1517402,  },
+    { name: 'Basilica de Santa Maria del Mar', slug: 'basilica-de-santa-maria-del-mar', dest: 'barcelona', cats: [], address: 'Plaça de Santa Maria, 1, Ciutat Vella, 08003 Barcelona, Spain', lat: 41.383887099999995, lng: 2.1820711,  },
+    { name: 'Casa Vicens', slug: 'casa-vicens', dest: 'barcelona', cats: [], address: 'Carrer de les Carolines, 20-26, Gràcia, 08012 Barcelona, Spain', lat: 41.4034978, lng: 2.1506455,  },
+    { name: 'Barcelona Cathedral', slug: 'barcelona-cathedral', dest: 'barcelona', cats: [], address: 'Pla de la Seu, s/n, Ciutat Vella, 08002 Barcelona, Spain', lat: 41.383962000000004, lng: 2.1761991,  },
+    { name: 'La Rambla', slug: 'la-rambla', dest: 'barcelona', cats: [], address: 'La Rambla, Barcelona, Spain', lat: 41.3856087, lng: 2.1698166,  },
+    { name: 'Pantheon', slug: 'pantheon', dest: 'rome', cats: [], address: 'Piazza della Rotonda, 00186 Roma RM, Italy', lat: 41.8986108, lng: 12.4768729,  },
+    { name: 'Trevi Fountain', slug: 'trevi-fountain', dest: 'rome', cats: [], address: 'Piazza di Trevi, 00187 Roma RM, Italy', lat: 41.900932499999996, lng: 12.483312999999999,  },
+    { name: 'Galleria Borghese', slug: 'galleria-borghese', dest: 'rome', cats: [], address: 'Piazzale Scipione Borghese, 5, 00197 Roma RM, Italy', lat: 41.9142103, lng: 12.4921442,  },
+    { name: 'Piazza Navona', slug: 'piazza-navona', dest: 'rome', cats: [], address: 'Piazza Navona, 00186 Roma RM, Italy', lat: 41.8991328, lng: 12.4732921,  },
+    { name: 'Basilica di Santa Maria Maggiore', slug: 'basilica-di-santa-maria-maggiore', dest: 'rome', cats: [], address: 'P.za di Santa Maria Maggiore, 00100 Roma RM, Italy', lat: 41.897598599999995, lng: 12.498408399999999,  },
+    { name: 'Castel Sant\'Angelo', slug: 'castel-sant-angelo', dest: 'rome', cats: [], address: 'Lungotevere Castello, 50, 00193 Roma RM, Italy', lat: 41.9030632, lng: 12.466275999999999,  },
+    { name: 'Palatine Hill', slug: 'palatine-hill', dest: 'rome', cats: [], address: 'Via di S. Gregorio, 30, 00186 Roma RM, Italy', lat: 41.888655899999996, lng: 12.4875481,  },
+    { name: 'Villa Borghese', slug: 'villa-borghese', dest: 'rome', cats: [], address: '00197 Rome, Metropolitan City of Rome Capital, Italy', lat: 41.9138782, lng: 12.485381799999999,  },
+    { name: 'Roman Forum', slug: 'roman-forum', dest: 'rome', cats: [], address: '00186 Rome, Metropolitan City of Rome Capital, Italy', lat: 41.892090599999996, lng: 12.4864378,  },
+    { name: 'Vittoriano', slug: 'vittoriano', dest: 'rome', cats: [], address: 'Piazza Venezia, 00186 Roma RM, Italy', lat: 41.8945976, lng: 12.4831269,  },
+    { name: 'Anne Frank House', slug: 'anne-frank-house', dest: 'amsterdam', cats: [], address: 'Westermarkt 20, 1016 GV Amsterdam, Netherlands', lat: 52.3752182, lng: 4.8839765,  },
+    { name: 'Van Gogh Museum', slug: 'van-gogh-museum', dest: 'amsterdam', cats: [], address: 'Museumplein 6, 1071 DJ Amsterdam, Netherlands', lat: 52.3580757, lng: 4.8812052999999995,  },
+    { name: 'Red Light District', slug: 'red-light-district', dest: 'amsterdam', cats: [], address: 'De Wallen, 1012 Amsterdam, Netherlands', lat: 52.3718122, lng: 4.8960596,  },
+    { name: 'Jordaan', slug: 'jordaan', dest: 'amsterdam', cats: [], address: 'Jordaan, Amsterdam, Netherlands', lat: 52.3732456, lng: 4.8802411999999995,  },
+    { name: 'Vondelpark', slug: 'vondelpark', dest: 'amsterdam', cats: [], address: '1071 AA Amsterdam, Netherlands', lat: 52.3579946, lng: 4.8686484,  },
+    { name: 'Heineken Experience', slug: 'heineken-experience', dest: 'amsterdam', cats: [], address: 'Stadhouderskade 78, 1072 AE Amsterdam, Netherlands', lat: 52.35783130000001, lng: 4.8918249,  },
+    { name: 'Our Lord in the Attic Museum', slug: 'our-lord-in-the-attic-museum', dest: 'amsterdam', cats: [], address: 'Oudezijds Voorburgwal 38-40, 1012 GD Amsterdam, Netherlands', lat: 52.375143800000004, lng: 4.8994358,  },
+    { name: 'A\'dam Lookout', slug: 'a-dam-lookout', dest: 'amsterdam', cats: [], address: 'IJpromenade 4, 1031 KT Amsterdam, Netherlands', lat: 52.3839541, lng: 4.9020649999999995,  },
+    { name: 'Centraal Station', slug: 'centraal-station', dest: 'amsterdam', cats: [], address: 'Stationsplein, 1012 AB Amsterdam, Netherlands', lat: 52.3791283, lng: 4.900272,  },
+    { name: 'Rembrandt House Museum', slug: 'rembrandt-house-museum', dest: 'amsterdam', cats: [], address: 'Jodenbreestraat 4, 1011 NK Amsterdam, Netherlands', lat: 52.369369, lng: 4.901235,  },
+    { name: 'Albert Cuyp Market', slug: 'albert-cuyp-market', dest: 'amsterdam', cats: [], address: 'Albert Cuypstraat 101, 1072 VV Amsterdam, Netherlands', lat: 52.3553059, lng: 4.8915504,  },
+    { name: 'British Museum', slug: 'british-museum', dest: 'london', cats: [], address: 'Great Russell St, London WC1B 3DG, UK', lat: 51.5194133, lng: -0.1269566,  },
+    { name: 'London Eye', slug: 'london-eye', dest: 'london', cats: [], address: 'Riverside Building, County Hall, Westminster Bridge Rd, London SE1 7PB, UK', lat: 51.5031864, lng: -0.11951919999999999,  },
+    { name: 'Sky Garden', slug: 'sky-garden', dest: 'london', cats: [], address: '1, Sky Garden Walk, London EC3M 8AF, UK', lat: 51.5112422, lng: -0.08354929999999999,  },
+    { name: 'Tower Bridge', slug: 'tower-bridge', dest: 'london', cats: [], address: 'Tower Bridge Rd, London SE1 2UP, UK', lat: 51.5054564, lng: -0.07535649999999999,  },
+    { name: 'Westminster Abbey', slug: 'westminster-abbey', dest: 'london', cats: [], address: 'Dean\'s Yard, London SW1P 3PA, UK', lat: 51.4993695, lng: -0.1272993,  },
+    { name: 'Natural History Museum', slug: 'natural-history-museum', dest: 'london', cats: [], address: 'Cromwell Rd, South Kensington, London SW7 5BD, UK', lat: 51.496714999999995, lng: -0.17636720000000003,  },
+    { name: 'V&A Museum', slug: 'v-a-museum', dest: 'london', cats: [], address: 'Cromwell Rd, London SW7 2RL, UK', lat: 51.4966392, lng: -0.17218,  },
+    { name: 'National Gallery', slug: 'national-gallery', dest: 'london', cats: [], address: 'Trafalgar Square, London WC2N 5DN, UK', lat: 51.508928999999995, lng: -0.128299,  },
+    { name: 'Covent Garden', slug: 'covent-garden', dest: 'london', cats: [], address: 'Covent Garden, London, UK', lat: 51.5116571, lng: -0.12404359999999999,  },
+    { name: 'Camden Market', slug: 'camden-market', dest: 'london', cats: [], address: 'Camden Town, London, UK', lat: 51.5390261, lng: -0.1425516,  },
+    { name: 'Alfama', slug: 'alfama', dest: 'lisbon', cats: [], address: 'Alfama, 1100 Lisbon, Portugal', lat: 38.7124976, lng: -9.1303235,  },
+    { name: 'Oceanário de Lisboa', slug: 'oceanario-de-lisboa', dest: 'lisbon', cats: [], address: 'Esplanada Dom Carlos I s/nº, 1990-005 Lisboa, Portugal', lat: 38.7635435, lng: -9.0937415,  },
+    { name: 'Jerónimos Monastery', slug: 'jeronimos-monastery', dest: 'lisbon', cats: [], address: 'Praça do Império 1400-206 Lisboa, 1400-206 Lisboa, Portugal', lat: 38.6978909, lng: -9.206703899999999,  },
+    { name: 'São Jorge Castle', slug: 'sao-jorge-castle', dest: 'lisbon', cats: [], address: 'R. de Santa Cruz do Castelo, 1100-129 Lisboa, Portugal', lat: 38.713909199999996, lng: -9.1334762,  },
+    { name: 'Praça do Comércio', slug: 'praca-do-comercio', dest: 'lisbon', cats: [], address: '1100-148 Lisbon, Portugal', lat: 38.7072828, lng: -9.136361299999999,  },
+    { name: 'Bairro Alto', slug: 'bairro-alto', dest: 'lisbon', cats: [], address: 'Bairro Alto, Margueira, Lisbon, Portugal', lat: 38.7128331, lng: -9.1450582,  },
+    { name: 'National Tile Museum', slug: 'national-tile-museum', dest: 'lisbon', cats: [], address: 'R. Me. Deus 4, 1900-312 Lisboa, Portugal', lat: 38.7250559, lng: -9.113539,  },
+    { name: 'Calouste Gulbenkian Museum', slug: 'calouste-gulbenkian-museum', dest: 'lisbon', cats: [], address: 'Av. de Berna 45A, 1067-001 Lisboa, Portugal', lat: 38.737812399999996, lng: -9.153545500000002,  },
+    { name: 'Chiado', slug: 'chiado', dest: 'lisbon', cats: [], address: 'Chiado, 1200-445 Lisboa, Portugal', lat: 38.7105423, lng: -9.1422039,  },
+    { name: 'Padrão dos Descobrimentos', slug: 'padrao-dos-descobrimentos', dest: 'lisbon', cats: [], address: 'Av. Brasília, 1400-038 Lisboa, Portugal', lat: 38.6935973, lng: -9.2057115,  },
+    { name: 'Miradouro da Senhora do Monte', slug: 'miradouro-da-senhora-do-monte', dest: 'lisbon', cats: [], address: 'Largo Monte, 1170-107 Lisboa, Portugal', lat: 38.7192091, lng: -9.1327772,  },
+    { name: 'Basilica Cistern', slug: 'basilica-cistern', dest: 'istanbul', cats: [], address: 'Alemdar, Yerebatan Cd. 1/3, 34110 Fatih/İstanbul, Türkiye', lat: 41.00838400000001, lng: 28.977877999999997,  },
+    { name: 'Topkapi Palace', slug: 'topkapi-palace', dest: 'istanbul', cats: [], address: 'Cankurtaran, Babı Hümayun Cad No: 1, 34122 Fatih/İstanbul, Türkiye', lat: 41.0115195, lng: 28.983378899999995,  },
+    { name: 'Blue Mosque', slug: 'blue-mosque', dest: 'istanbul', cats: [], address: 'Cankurtaran, At Meydanı Cd No:7, 34122 Fatih/İstanbul, Türkiye', lat: 41.0054096, lng: 28.9768138,  },
+    { name: 'Dolmabahçe Palace', slug: 'dolmabahce-palace', dest: 'istanbul', cats: [], address: 'Vişnezade, Dolmabahçe Cd., 34357 Beşiktaş/İstanbul, Türkiye', lat: 41.039164299999996, lng: 29.000459400000004,  },
+    { name: 'Sultanahmet District', slug: 'sultanahmet-district', dest: 'istanbul', cats: [], address: 'Sultanahmet, Alemdar, 34110 Fatih/İstanbul, Türkiye', lat: 41.007874199999996, lng: 28.977831299999995,  },
+    { name: 'Süleymaniye Mosque', slug: 'suleymaniye-mosque', dest: 'istanbul', cats: [], address: 'Süleymaniye, Prof. Dr. Sıddık Sami Onar Cd. No:1, 34116 Fatih/İstanbul, Türkiye', lat: 41.016047, lng: 28.9639711,  },
+    { name: 'Bosphorus Strait', slug: 'bosphorus-strait', dest: 'istanbul', cats: [], address: 'Bosphorus, Türkiye', lat: 41.221312499999996, lng: 29.129015700000004,  },
+    { name: 'Galata Tower', slug: 'galata-tower', dest: 'istanbul', cats: [], address: 'Bereketzade, 34421 Beyoğlu/İstanbul, Türkiye', lat: 41.025569, lng: 28.974128600000004,  },
+    { name: 'İstiklal Caddesi', slug: 'istiklal-caddesi', dest: 'istanbul', cats: [], address: 'İstiklal Cd., Beyoğlu/İstanbul, Türkiye', lat: 41.0337874, lng: 28.9779527,  },
+    { name: 'Istanbul Archaeology Museums', slug: 'istanbul-archaeology-museums', dest: 'istanbul', cats: [], address: 'Cankurtaran, 34122 Fatih/İstanbul, Türkiye', lat: 41.0116855, lng: 28.9813305,  },
+    { name: 'Sacred Monkey Forest', slug: 'sacred-monkey-forest', dest: 'bali', cats: [], address: 'Jl. Monkey Forest, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali 80571, Indonesia', lat: -8.5193727, lng: 115.26062990000001,  },
+    { name: 'Tegallalang Rice Terrace', slug: 'tegallalang-rice-terrace', dest: 'bali', cats: [], address: 'Jl. Raya Tegallalang, Tegallalang, Kec. Tegallalang, Kabupaten Gianyar, Bali 80561, Indonesia', lat: -8.431711199999999, lng: 115.279303,  },
+    { name: 'Kelingking Beach', slug: 'kelingking-beach', dest: 'bali', cats: [], address: 'Kelingking Beach, Bunga Mekar, Nusa Penida, Klungkung Regency, Bali, Indonesia', lat: -8.7513849, lng: 115.47320429999998,  },
+    { name: 'Nusa Dua Beach', slug: 'nusa-dua-beach', dest: 'bali', cats: [], address: 'Nusa Dua Beach, Bali, Indonesia', lat: -8.795761599999999, lng: 115.23282130000001,  },
+    { name: 'Uluwatu Temple', slug: 'uluwatu-temple', dest: 'bali', cats: [], address: 'Pecatu, South Kuta, Badung Regency, Bali, Indonesia', lat: -8.829143199999999, lng: 115.08490690000001,  },
+    { name: 'Tirta Empul Temple', slug: 'tirta-empul-temple', dest: 'bali', cats: [], address: 'Tampaksiring, Gianyar Regency, Bali 80552, Indonesia', lat: -8.4156589, lng: 115.3153284,  },
+    { name: 'Sanur Beach', slug: 'sanur-beach', dest: 'bali', cats: [], address: 'Sanur, Bali, Indonesia', lat: -8.7071782, lng: 115.26262360000001,  },
+    { name: 'Mount Batur', slug: 'mount-batur', dest: 'bali', cats: [], address: 'Mt Batur, South Batur, Kintamani, Bangli Regency, Bali, Indonesia', lat: -8.2401299, lng: 115.37749439999997,  },
+    { name: 'Waterbom Bali', slug: 'waterbom-bali', dest: 'bali', cats: [], address: 'Jl. Kartika Plaza, Kuta, Kec. Kuta, Kabupaten Badung, Bali 80361, Indonesia', lat: -8.728581499999999, lng: 115.1692888,  },
+    { name: 'Gianyar Street Night Market', slug: 'gianyar-street-night-market', dest: 'bali', cats: [], address: 'Jl. Ciung Wanara-Gianyar No.18, Gianyar, Kec. Gianyar, Kabupaten Gianyar, Bali 80361, Indonesia', lat: -8.5413246, lng: 115.32862139999999,  },
   ];
 
   for (const p of placesData) {

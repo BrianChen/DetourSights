@@ -7,6 +7,14 @@ const placeInclude = {
   categories: { include: { category: true } },
 };
 
+function stripConfidence(place) {
+  if (!place?.aiGenData) return place;
+  const aiGenData = Object.fromEntries(
+    Object.entries(place.aiGenData).filter(([k]) => !k.endsWith('Confidence'))
+  );
+  return { ...place, aiGenData };
+}
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const destinationSlug = searchParams.get('destinationSlug');
@@ -21,7 +29,7 @@ export async function GET(request) {
     include: placeInclude,
     orderBy: { name: 'asc' },
   });
-  return NextResponse.json(places);
+  return NextResponse.json(places.map(stripConfidence));
 }
 
 export async function POST(request) {

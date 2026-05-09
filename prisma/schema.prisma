@@ -15,6 +15,7 @@ enum PriceRange {
   BUDGET
   MODERATE
   EXPENSIVE
+  VERY_EXPENSIVE
 }
 
 enum Role {
@@ -109,8 +110,11 @@ model Place {
   longitude     Float?
   website       String?
   phone         String?
-  priceRange    PriceRange?
-  coverImageUrl String?
+  priceRange          PriceRange?
+  openingHours        Json?
+  reservable          Boolean?
+  accessibilityOptions Json?
+  coverImageUrl       String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 

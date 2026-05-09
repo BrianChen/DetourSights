@@ -54,7 +54,11 @@ export default function CarouselRow({ children, pageSize = 5, responsiveCols }) 
     setDirection(dir);
     setAnimating(true);
     setTimeout(() => {
-      setStartIndex((i) => i + (dir === 'right' ? 1 : -1));
+      setStartIndex((i) => {
+        const step = visibleCount;
+        if (dir === 'right') return Math.min(i + step, items.length - visibleCount);
+        return Math.max(i - step, 0);
+      });
       setAnimating(false);
     }, 300);
   }

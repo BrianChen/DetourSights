@@ -11,7 +11,6 @@ const INDOOR_OUTDOOR_LABEL = {
   Sidebar details card showing:
   - Address (all)
   - Website (all)
-  - Area / neighbourhood (all)
   - Setting / indoorOutdoor (all)
   - Phone (food, nightlife, arts, activities)
   - Booking / bookInAdvanceWarning (sights, food, nightlife, arts, activities)
@@ -23,24 +22,25 @@ const INDOOR_OUTDOOR_LABEL = {
 */
 
 const CATEGORY_FIELDS = {
-  'sights-and-landmarks':       ['address', 'website', 'neighbourhood', 'indoorOutdoor', 'booking', 'howLongToSpend'],
-  'nature-outdoors':            ['address', 'website', 'neighbourhood', 'indoorOutdoor', 'howLongToSpend'],
-  'food-and-drink':             ['address', 'phone', 'website', 'neighbourhood', 'indoorOutdoor', 'booking', 'dressCode'],
-  'nightlife':                  ['address', 'phone', 'website', 'neighbourhood', 'indoorOutdoor', 'booking', 'dressCode'],
-  'shopping':                   ['address', 'website', 'neighbourhood', 'indoorOutdoor'],
-  'arts-and-entertainment':     ['address', 'phone', 'website', 'neighbourhood', 'indoorOutdoor', 'booking', 'howLongToSpend'],
-  'activities-and-experiences': ['address', 'phone', 'website', 'neighbourhood', 'indoorOutdoor', 'booking', 'howLongToSpend'],
+  'sights-and-landmarks':       ['address', 'website', 'indoorOutdoor', 'booking', 'howLongToSpend'],
+  'nature-outdoors':            ['address', 'website', 'indoorOutdoor', 'howLongToSpend'],
+  'food-and-drink':             ['address', 'phone', 'website', 'indoorOutdoor', 'booking', 'dressCode'],
+  'nightlife':                  ['address', 'phone', 'website', 'indoorOutdoor', 'booking', 'dressCode'],
+  'shopping':                   ['address', 'website', 'indoorOutdoor'],
+  'arts-and-entertainment':     ['address', 'phone', 'website', 'indoorOutdoor', 'booking', 'howLongToSpend'],
+  'activities-and-experiences': ['address', 'phone', 'website', 'indoorOutdoor', 'booking', 'howLongToSpend'],
 };
 
 export default function PlaceDetailsCard({ place, categorySlugs = [] }) {
-  const visibleFields = new Set(categorySlugs.flatMap(slug => CATEGORY_FIELDS[slug] ?? []));
+  const visibleFields = new Set(['address', 'phone', 'website', 'indoorOutdoor', 'booking', 'howLongToSpend', 'dressCode']);
+  // const visibleFields = new Set(categorySlugs.flatMap(slug => CATEGORY_FIELDS[slug] ?? []));
+
 
   const ai = place.aiGenData;
   const hasPracticalInfo =
     (visibleFields.has('address') && place.address) ||
     (visibleFields.has('phone') && place.phone) ||
     (visibleFields.has('website') && place.website) ||
-    (visibleFields.has('neighbourhood') && ai?.neighbourhood) ||
     (visibleFields.has('indoorOutdoor') && ai?.indoorOutdoor) ||
     (visibleFields.has('booking') && ai?.bookingRequired != null) ||
     (visibleFields.has('dressCode') && ai?.dressCode) ||
@@ -74,12 +74,6 @@ export default function PlaceDetailsCard({ place, categorySlugs = [] }) {
             <a href={place.website} target="_blank" rel="noopener noreferrer" className={styles.practicalVal}>
               {websiteHost}
             </a>
-          </div>
-        )}
-        {visibleFields.has('neighbourhood') && ai?.neighbourhood && (
-          <div className={styles.practicalRow}>
-            <span className={styles.practicalKey}>Area</span>
-            <span className={styles.practicalVal}>{ai.neighbourhood}</span>
           </div>
         )}
         {visibleFields.has('indoorOutdoor') && ai?.indoorOutdoor && (

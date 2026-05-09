@@ -7,34 +7,42 @@ const placeInclude = {
   categories: { include: { category: true } },
 };
 
+function stripConfidence(place) {
+  if (!place?.aiGenData) return place;
+  const aiGenData = Object.fromEntries(
+    Object.entries(place.aiGenData).filter(([k]) => !k.endsWith('Confidence'))
+  );
+  return { ...place, aiGenData };
+}
+
 export async function GET(request, { params }) {
+  const { slug } = await params;
   const place = await prisma.place.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: placeInclude,
   });
   if (!place) return NextResponse.json({ error: 'Place not found' }, { status: 404 });
-  return NextResponse.json(place);
+  return NextResponse.json(stripConfidence(place));
 }
 
 const AI_FIELDS = new Set([
-  'tagline', 'taglineConfidence',
-  'description', 'descriptionConfidence',
-  'whyVisit', 'whyVisitConfidence',
-  'neighbourhood', 'neighbourhoodConfidence',
-  'howLongToSpend', 'howLongToSpendConfidence',
-  'bookingRequired', 'bookingRequiredConfidence',
-  'bookInAdvanceWarning', 'bookInAdvanceWarningConfidence',
-  'dressCode', 'dressCodeConfidence',
-  'localTips', 'localTipsConfidence',
-  'whatToBring', 'whatToBringConfidence',
-  'indoorOutdoor', 'indoorOutdoorConfidence',
-  'weatherDependent', 'weatherDependentConfidence',
-  'moodsConfidence',
+  'tagline',
+  'description',
+  'whyVisit',
+  'howLongToSpend',
+  'bookingRequired',
+  'bookInAdvanceWarning',
+  'dressCode',
+  'localTips',
+  'whatToBring',
+  'indoorOutdoor',
+  'weatherDependent',
   'generatedAt', 'modelVersion',
 ]);
 
 export async function PATCH(request, { params }) {
-  const existing = await prisma.place.findUnique({ where: { slug: params.slug } });
+  const { slug } = await params;
+  const existing = await prisma.place.findUnique({ where: { slug } });
   if (!existing) return NextResponse.json({ error: 'Place not found' }, { status: 404 });
 
   const { categoryIds, ...fields } = await request.json();
@@ -61,11 +69,12 @@ export async function PATCH(request, { params }) {
   }
 
   const place = await prisma.place.findUnique({ where: { id: existing.id }, include: placeInclude });
-  return NextResponse.json(place);
+  return NextResponse.json(stripConfidence(place));
 }
 
 export async function DELETE(request, { params }) {
-  const existing = await prisma.place.findUnique({ where: { slug: params.slug } });
+  const { slug } = await params;
+  const existing = await prisma.place.findUnique({ where: { slug } });
   if (!existing) return NextResponse.json({ error: 'Place not found' }, { status: 404 });
   await prisma.place.delete({ where: { id: existing.id } });
   return new NextResponse(null, { status: 204 });

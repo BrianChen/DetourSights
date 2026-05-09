@@ -82,7 +82,7 @@ export default async function DestinationPage({ params }) {
         {galleryImages.length > 0 && <GallerySection images={galleryImages} label={destination.name} />}
       </div>
 
-      <PlacesFilter places={destination.places} destinationSlug={destinationSlug} />
+      <PlacesFilter places={destination.places} destinationSlug={destinationSlug} destinationCoverImageUrl={destination.coverImageUrl} />
 
       <WhyVisit destinationName={destination.name} />
 

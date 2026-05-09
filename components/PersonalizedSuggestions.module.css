@@ -38,6 +38,7 @@
 
 .imageWrap {
   flex: 0 0 110px;
+  min-height: 110px;
   position: relative;
   background: var(--color-surface-alt);
 }
