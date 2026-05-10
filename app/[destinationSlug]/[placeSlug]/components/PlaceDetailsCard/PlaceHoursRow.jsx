@@ -1,16 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 import styles from './PlaceDetailsCard.module.css';
 
 // weekdayDescriptions is ordered Mon (0) – Sun (6)
 // JS Date.getDay() is Sun=0, Mon=1 … Sat=6, so map: (jsDay + 6) % 7
 export default function PlaceHoursRow({ weekdayDescriptions }) {
-  const [todayIndex, setTodayIndex] = useState(null);
-
-  useEffect(() => {
-    setTodayIndex((new Date().getDay() + 6) % 7);
-  }, []);
+  // useSyncExternalStore returns null on the server and the real day index on the client,
+  // avoiding both hydration mismatch and the setState-in-effect lint rule.
+  const todayIndex = useSyncExternalStore(
+    () => () => {},
+    () => (new Date().getDay() + 6) % 7,
+    () => null,
+  );
 
   return (
     <div className={styles.hoursList}>

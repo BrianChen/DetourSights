@@ -21,17 +21,17 @@ export default async function globalSetup() {
   //   __test-food-attraction  → food + attraction
   const [foodPlace, attractionPlace, bothPlace] = await Promise.all([
     prisma.place.upsert({
-      where: { slug: '__test-food' },
+      where: { destinationId_slug: { destinationId: destination.id, slug: '__test-food' } },
       update: {},
       create: { name: 'Test Food Spot', slug: '__test-food', destinationId: destination.id },
     }),
     prisma.place.upsert({
-      where: { slug: '__test-attraction' },
+      where: { destinationId_slug: { destinationId: destination.id, slug: '__test-attraction' } },
       update: {},
       create: { name: 'Test Landmark', slug: '__test-attraction', destinationId: destination.id },
     }),
     prisma.place.upsert({
-      where: { slug: '__test-food-attraction' },
+      where: { destinationId_slug: { destinationId: destination.id, slug: '__test-food-attraction' } },
       update: {},
       create: { name: 'Test Food Landmark', slug: '__test-food-attraction', destinationId: destination.id },
     }),
