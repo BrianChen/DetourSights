@@ -130,7 +130,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--color-ink);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.3;
 }
 
@@ -139,6 +139,16 @@
   color: var(--color-ink-secondary);
   line-height: 1.55;
   margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.placeTagline {
+  font-size: 0.85rem;
+  color: var(--color-ink-secondary);
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

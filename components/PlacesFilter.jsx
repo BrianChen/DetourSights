@@ -73,15 +73,9 @@ export default function PlacesFilter({ places, destinationSlug, destinationCover
             </div>
             <div className={styles.cardBody}>
               <h2 className={styles.placeName}>{place.name}</h2>
-              {place.description && <p className={styles.placeDesc}>{place.description}</p>}
-              <div className={styles.tags}>
-                {place.categories.map(({ category }) => (
-                  <span key={category.id} className={styles.tag}>
-                    {category.icon} {category.name}
-                  </span>
-                ))}
-                {place.priceRange && <span className={styles.price}>{place.priceRange}</span>}
-              </div>
+              {place.aiGenData?.tagline && (
+                <p className={styles.placeTagline}>{place.aiGenData.tagline}</p>
+              )}
             </div>
           </a>
         ))}

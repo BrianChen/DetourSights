@@ -17,7 +17,7 @@ function stripConfidence(place) {
 
 export async function GET(request, { params }) {
   const { slug } = await params;
-  const place = await prisma.place.findUnique({
+  const place = await prisma.place.findFirst({
     where: { slug },
     include: placeInclude,
   });
@@ -29,7 +29,8 @@ const AI_FIELDS = new Set([
   'tagline',
   'description',
   'whyVisit',
-  'howLongToSpend',
+  'visitDuration',
+  'visitDurationConfidence',
   'bookingRequired',
   'bookInAdvanceWarning',
   'dressCode',
@@ -42,7 +43,7 @@ const AI_FIELDS = new Set([
 
 export async function PATCH(request, { params }) {
   const { slug } = await params;
-  const existing = await prisma.place.findUnique({ where: { slug } });
+  const existing = await prisma.place.findFirst({ where: { slug } });
   if (!existing) return NextResponse.json({ error: 'Place not found' }, { status: 404 });
 
   const { categoryIds, ...fields } = await request.json();
@@ -74,7 +75,7 @@ export async function PATCH(request, { params }) {
 
 export async function DELETE(request, { params }) {
   const { slug } = await params;
-  const existing = await prisma.place.findUnique({ where: { slug } });
+  const existing = await prisma.place.findFirst({ where: { slug } });
   if (!existing) return NextResponse.json({ error: 'Place not found' }, { status: 404 });
   await prisma.place.delete({ where: { id: existing.id } });
   return new NextResponse(null, { status: 204 });

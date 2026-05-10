@@ -14,11 +14,8 @@
   line-height: 1.55;
 }
 
-.bringCheck {
-  width: 17px;
-  height: 17px;
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-sm);
+.bringDot {
   flex-shrink: 0;
-  margin-top: 2px;
+  color: var(--color-ink-muted);
+  margin-top: 1px;
 }

@@ -12,9 +12,9 @@
 
 .practicalRow {
   display: grid;
-  grid-template-columns: 96px 1fr;
-  gap: 16px;
-  align-items: baseline;
+  grid-template-columns: 110px 1fr;
+  gap: 13px;
+  align-items: start;
   padding: 14px 20px;
   border-bottom: 1px solid var(--color-border-light);
 }
@@ -24,6 +24,10 @@
 }
 
 .practicalKey {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-top: 3px;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -35,6 +39,8 @@
   font-size: 0.93rem;
   color: var(--color-ink-secondary);
   line-height: 1.5;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 a.practicalVal {
@@ -46,13 +52,54 @@ a.practicalVal:hover {
   text-decoration: underline;
 }
 
-.practicalWarn .practicalKey {
-  color: var(--color-accent);
+.hoursList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
 }
 
-.practicalWarn .practicalVal {
+.hoursRow {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.hoursDay {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-ink-muted);
+}
+
+.hoursTime {
+  color: var(--color-ink-secondary);
+}
+
+.hoursClosed {
+  color: var(--color-ink-muted);
+}
+
+.hoursToday .hoursDay {
   color: var(--color-ink);
-  font-weight: 500;
+}
+
+.hoursToday .hoursTime {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.bookingNote {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--color-ink-secondary);
+  line-height: 1.45;
+  font-weight: 400;
+  margin-top: -4px;
 }
 
 @media (--tablet) {
@@ -63,6 +110,6 @@ a.practicalVal:hover {
 
 @media (--mobile) {
   .practicalRow {
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 90px 1fr;
   }
 }

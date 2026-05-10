@@ -42,7 +42,7 @@ export default async function DestinationPage({ params }) {
     where: { slug: destinationSlug },
     include: {
       places: {
-        include: { categories: { include: { category: true } } },
+        include: { categories: { include: { category: true } }, aiGenData: true },
         orderBy: { name: 'asc' },
       },
       images: {

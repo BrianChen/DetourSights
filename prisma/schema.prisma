@@ -35,11 +35,19 @@ enum ConfidenceLevel {
   LOW
 }
 
+enum VisitDurationEnum {
+  UNDER_1_HOUR
+  ONE_TO_TWO_HOURS
+  TWO_TO_FOUR_HOURS
+  HALF_DAY
+  FULL_DAY
+}
+
 // ─── Models ──────────────────────────────────────────────────────────────────
 
 model Destination {
   id            Int      @id @default(autoincrement())
-  name          String
+  name          String   @unique
   country       String
   slug          String   @unique
   description   String?
@@ -104,7 +112,7 @@ model Category {
 model Place {
   id            Int         @id @default(autoincrement())
   name          String
-  slug          String      @unique
+  slug          String
   address       String?
   latitude      Float?
   longitude     Float?
@@ -129,6 +137,8 @@ model Place {
   featuredEntry FeaturedPlace?
   seasonalTips  SeasonalTipAiGen[]
 
+  @@unique([destinationId, name])
+  @@unique([destinationId, slug])
   @@index([destinationId])
 }
 
@@ -146,8 +156,8 @@ model PlaceAiGenData {
   whyVisitConfidence           ConfidenceLevel?
   neighbourhood                String?
   neighbourhoodConfidence      ConfidenceLevel?
-  howLongToSpend               String?
-  howLongToSpendConfidence     ConfidenceLevel?
+  visitDuration                VisitDurationEnum?
+  visitDurationConfidence      ConfidenceLevel?
   bookingRequired              Boolean?
   bookingRequiredConfidence    ConfidenceLevel?
   bookInAdvanceWarning         String?

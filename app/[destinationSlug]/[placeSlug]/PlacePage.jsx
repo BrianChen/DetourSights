@@ -10,6 +10,7 @@ import SeasonalTipsSection from './components/SeasonalTipsSection/SeasonalTipsSe
 import WhyVisitSection from './components/WhyVisitSection/WhyVisitSection';
 import PlaceDetailsCard from './components/PlaceDetailsCard/PlaceDetailsCard';
 import WhatToBringCard from './components/WhatToBringCard/WhatToBringCard';
+import AccessibilityCard from './components/AccessibilityCard/AccessibilityCard';
 
 const PRICE_RANGE_MAP = {
   FREE: 'Free',
@@ -39,9 +40,9 @@ const CATEGORY_SCHEMA_TYPE = {
 };
 
 export async function generateMetadata({ params }) {
-  const { placeSlug } = await params;
-  const place = await prisma.place.findUnique({
-    where: { slug: placeSlug },
+  const { destinationSlug, placeSlug } = await params;
+  const place = await prisma.place.findFirst({
+    where: { slug: placeSlug, destination: { slug: destinationSlug } },
     include: { destination: true, aiGenData: true },
   });
   if (!place) return {};
@@ -72,8 +73,8 @@ export async function generateMetadata({ params }) {
 
 export default async function PlacePage({ params }) {
   const { destinationSlug, placeSlug } = await params;
-  const place = await prisma.place.findUnique({
-    where: { slug: placeSlug },
+  const place = await prisma.place.findFirst({
+    where: { slug: placeSlug, destination: { slug: destinationSlug } },
     include: {
       destination: true,
       aiGenData: true,
@@ -86,7 +87,6 @@ export default async function PlacePage({ params }) {
   });
 
   if (!place) notFound();
-  if (place.destination.slug !== destinationSlug) notFound();
 
   const avgRating = place.reviews.length
     ? (place.reviews.reduce((sum, r) => sum + r.rating, 0) / place.reviews.length).toFixed(1)
@@ -184,6 +184,7 @@ export default async function PlacePage({ params }) {
             </div>
           )}
           <PlaceDetailsCard place={place} categorySlugs={categorySlugs} />
+          <AccessibilityCard accessibilityOptions={place.accessibilityOptions} />
           {visibleSections.has('whatToBring') && (
             <WhatToBringCard whatToBring={place.aiGenData?.whatToBring} />
           )}

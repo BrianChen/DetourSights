@@ -24,3 +24,4 @@ playwright-report/
 .env*.local
 
 docs/
+.ds_store

@@ -1,3 +1,4 @@
+import { Dot } from 'lucide-react';
 import shared from '../shared.module.css';
 import styles from './WhatToBringCard.module.css';
 
@@ -9,7 +10,7 @@ export default function WhatToBringCard({ whatToBring }) {
       <ul className={styles.bringList}>
         {whatToBring.map((item, i) => (
           <li key={i} className={styles.bringItem}>
-            <span className={styles.bringCheck} aria-hidden="true" />
+            <Dot size={20} className={styles.bringDot} aria-hidden="true" />
             {item}
           </li>
         ))}
