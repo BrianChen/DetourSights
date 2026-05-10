@@ -27,26 +27,28 @@ test.describe('Header', () => {
     test('clicking Destinations opens dropdown with section headings', async ({ page }) => {
       const header = page.getByRole('banner');
       await page.getByRole('button', { name: /destinations/i }).click();
-      await expect(header.getByText('Top Destinations')).toBeVisible();
-      await expect(header.getByText('Top Places')).toBeVisible();
+      await expect(header.getByText('Top Destinations')).toBeVisible({ timeout: 2000 });
+      await expect(header.getByText('Top Places')).toBeVisible({ timeout: 2000 });
     });
 
     test('X button closes the dropdown', async ({ page }) => {
       const header = page.getByRole('banner');
       await page.getByRole('button', { name: /destinations/i }).click();
-      await expect(header.getByText('Top Destinations')).toBeVisible();
+      await expect(header.getByText('Top Destinations')).toBeVisible({ timeout: 2000 });
 
       await header.getByRole('button', { name: /close/i }).click();
-      await expect(header.getByText('Top Destinations')).not.toBeVisible();
+      // Wait for Framer Motion exit animation (~250ms) before asserting hidden
+      await expect(header.getByText('Top Destinations')).toBeHidden({ timeout: 2000 });
     });
 
     test('clicking Destinations button again closes the dropdown', async ({ page }) => {
       const btn = page.getByRole('button', { name: /destinations/i });
       await btn.click();
-      await expect(page.getByText('Top Destinations')).toBeVisible();
+      await expect(page.getByText('Top Destinations')).toBeVisible({ timeout: 2000 });
 
       await btn.click();
-      await expect(page.getByText('Top Destinations')).not.toBeVisible();
+      // Wait for Framer Motion exit animation (~250ms) before asserting hidden
+      await expect(page.getByText('Top Destinations')).toBeHidden({ timeout: 2000 });
     });
   });
 

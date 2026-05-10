@@ -29,9 +29,15 @@ components/
   PlacesFilter.jsx / PlacesFilter.module.css   # Client component — multi-select category filter
 lib/
   db.js                               # Prisma client singleton
+  utils/
+    slug.js                           # Shared toSlug() utility — used by scripts and pages
+  scripts/
+    destinations/                     # add-destinations.js, remove-destinations.js
+    places/                           # add-places.js, generate-place-content.js, process-batch-results.js
+    images/                           # get-destination-images.js, get-place-images.js
 prisma/
   schema.prisma                       # DB schema
-  seed.js                             # Seed data (93 destinations, ~94 places)
+  seed.js                             # Seed data (91 destinations, 184 hand-curated places)
 public/                               # Static assets (logos, icons — NOT destination images)
 jsconfig.json                         # Path alias: @/* → ./*
 ```
@@ -65,8 +71,9 @@ jsconfig.json                         # Path alias: @/* → ./*
 ## Database
 - **Provider:** PostgreSQL
 - **ORM:** Prisma 5
-- **Key models:** `Destination`, `Place`, `Category`, `PlaceCategory` (join), `Review`, `Photo`, `User`
-- **Price range enum:** `FREE | BUDGET | MODERATE | EXPENSIVE`
+- **Key models:** `Destination`, `Place`, `PlaceAiGenData`, `Category`, `PlaceCategory` (join), `Mood`, `PlaceMood` (join), `SeasonalTipAiGen`, `Review`, `Photo`, `User`
+- **Place slugs:** unique per destination via composite key `@@unique([destinationId, slug])` — not globally unique
+- **Price range enum:** `FREE | BUDGET | MODERATE | EXPENSIVE | VERY_EXPENSIVE`
 
 ## Common Commands
 ```bash
@@ -79,7 +86,7 @@ npm run db:generate  # Regenerate Prisma client after schema changes
 
 ## Seed File Notes
 - Located at `prisma/seed.js`
-- 93 destinations, ~94 places
+- 91 destinations, 184 hand-curated places — used for CI and local dev resets only
 - Has deduplication logic — safe to re-run
 - Update `update: { description: d.description }` to propagate description changes on re-seed
-- Keep the count comment at the `// ─── Destinations (N)` header up to date when adding/removing entries
+- Production places (~980 total) are added via `add-places.js` and are not in the seed file
