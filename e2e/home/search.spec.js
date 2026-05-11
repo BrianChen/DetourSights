@@ -7,12 +7,12 @@ test.describe('Search bar', () => {
   });
 
   test('shows destination suggestions as user types', async ({ page }) => {
-    await page.getByPlaceholder('Search destinations...').fill(DESTINATION.name);
+    await page.getByPlaceholder('Find places and things to do').fill(DESTINATION.name);
     await expect(page.getByRole('listitem').filter({ hasText: DESTINATION.name }).first()).toBeVisible();
   });
 
   test('navigates to destination page when suggestion is clicked', async ({ page }) => {
-    await page.getByPlaceholder('Search destinations...').fill(DESTINATION.name);
+    await page.getByPlaceholder('Find places and things to do').fill(DESTINATION.name);
     await page.getByRole('listitem').filter({ hasText: DESTINATION.name }).first().click();
 
     await expect(page).toHaveURL(`/${DESTINATION.slug}`);
@@ -20,7 +20,7 @@ test.describe('Search bar', () => {
   });
 
   test('navigates on Enter key when suggestion is highlighted', async ({ page }) => {
-    const input = page.getByPlaceholder('Search destinations...');
+    const input = page.getByPlaceholder('Find places and things to do');
     await input.fill(DESTINATION.name);
 
     await expect(page.getByRole('listitem').filter({ hasText: DESTINATION.name }).first()).toBeVisible();
@@ -31,7 +31,7 @@ test.describe('Search bar', () => {
   });
 
   test('closes dropdown on Escape', async ({ page }) => {
-    const input = page.getByPlaceholder('Search destinations...');
+    const input = page.getByPlaceholder('Find places and things to do');
     await input.fill(DESTINATION.name);
 
     await expect(page.getByRole('listitem').filter({ hasText: DESTINATION.name }).first()).toBeVisible();

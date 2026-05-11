@@ -71,7 +71,7 @@ export default function SearchBar({ compact = false }) {
         <input
           className={styles.input}
           type="text"
-          placeholder="Search destinations..."
+          placeholder="Find places and things to do"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}

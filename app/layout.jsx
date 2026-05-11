@@ -18,8 +18,8 @@ const inter = Inter({
 
 export const metadata = {
   metadataBase: new URL('https://www.detoursights.com'),
-  title: 'Detour Sights',
-  description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
+  title: 'Things to Do & Places to Visit Worldwide | DetourSights',
+  description: 'Discover things to do at 91 destinations worldwide — top sights, restaurants, nature spots, nightlife, and hidden gems. Curated places with local tips and practical info.',
   alternates: {
     canonical: 'https://www.detoursights.com',
   },
@@ -27,16 +27,16 @@ export const metadata = {
     'theme-color': '#E8602C',
   },
   openGraph: {
-    title: 'Detour Sights',
-    description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
+    title: 'DetourSights — Discover Things to Do Around the World',
+    description: 'Discover things to do at 91 destinations worldwide — top sights, restaurants, nature spots, nightlife, and hidden gems. Curated places with local tips and practical info.',
     url: 'https://www.detoursights.com',
-    siteName: 'Detour Sights',
+    siteName: 'DetourSights',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Detour Sights',
-    description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
+    title: 'DetourSights — Discover Things to Do Around the World',
+    description: 'Discover things to do at 91 destinations worldwide — top sights, restaurants, nature spots, nightlife, and hidden gems. Curated places with local tips.',
   },
 };
 

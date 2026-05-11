@@ -3,8 +3,11 @@ import DestinationsExplorer from './DestinationsExplorer';
 import styles from './page.module.css';
 
 export const metadata = {
-  title: 'All Destinations | Detour Sights',
-  description: 'Browse all destinations on Detour Sights — cities, towns, and regions around the world.',
+  title: 'All Destinations | DetourSights',
+  description: 'Browse all 91 destinations on DetourSights — cities, towns, and regions around the world with curated things to do.',
+  alternates: {
+    canonical: 'https://www.detoursights.com/destinations',
+  },
 };
 
 export default async function DestinationsPage() {

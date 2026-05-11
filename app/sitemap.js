@@ -24,7 +24,9 @@ export default async function sitemap() {
   }));
 
   return [
-    { url: 'https://www.detoursights.com', lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
+    { url: 'https://www.detoursights.com',              lastModified: new Date(), changeFrequency: 'daily',  priority: 1.0 },
+    { url: 'https://www.detoursights.com/destinations', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    { url: 'https://www.detoursights.com/places',       lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
     ...destinationUrls,
     ...placeUrls,
   ];

@@ -14,24 +14,24 @@ export async function generateMetadata({ params }) {
   const description = destination.description
     ?? `Explore the best things to do in ${destination.name}, ${destination.country}.`;
   return {
-    title: `${destination.name} — Detour Sights`,
+    title: `${destination.name} — DetourSights`,
     description,
     alternates: {
       canonical: `https://www.detoursights.com/${destinationSlug}`,
     },
     openGraph: {
-      title: `${destination.name} — Detour Sights`,
+      title: `${destination.name} — DetourSights`,
       description,
       url: `https://www.detoursights.com/${destinationSlug}`,
-      siteName: 'Detour Sights',
+      siteName: 'DetourSights',
       type: 'website',
       ...(destination.coverImageUrl && { images: [{ url: destination.coverImageUrl }] }),
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${destination.name} — Detour Sights`,
+      title: `${destination.name} — DetourSights`,
       description,
-      ...(destination.coverImageUrl && { images: [destination.coverImageUrl] }),
+      ...(destination.coverImageUrl && { images: [{ url: destination.coverImageUrl }] }),
     },
   };
 }

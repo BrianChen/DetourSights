@@ -6,8 +6,11 @@ import PlacesPagination from './PlacesPagination';
 import styles from './page.module.css';
 
 export const metadata = {
-  title: 'All Places | Detour Sights',
-  description: 'Browse all places on Detour Sights — top sights, restaurants, nature spots, and more across the world.',
+  title: 'All Places | DetourSights',
+  description: 'Browse 1,000+ places on DetourSights — top sights, restaurants, nature spots, nightlife, and hidden gems across 91 destinations.',
+  alternates: {
+    canonical: 'https://www.detoursights.com/places',
+  },
 };
 
 const PAGE_SIZE = 24;

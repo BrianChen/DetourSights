@@ -19,7 +19,7 @@ test.describe('Place detail page', () => {
   });
 
   test('shows category tag', async ({ page }) => {
-    await expect(page.getByText('🏛️ Sights & Landmarks')).toBeVisible();
+    await expect(page.getByText('🏛️ Sights & Landmarks').first()).toBeVisible();
   });
 
   test('breadcrumb links back to destination', async ({ page }) => {

@@ -22,7 +22,8 @@ export default function HomePage() {
       <main className={styles.hero}>
         <div className={styles.overlay} />
         <div className={styles.content}>
-          <h1 className={styles.headline}>Discover things to do</h1>
+          <h1 className={styles.headline}>Discover Things to Do</h1>
+          <p className={styles.subheadline}>Over 1,000 destinations and places worldwide</p>
           <div id="hero-search" className={styles['hero-search']}>
             <SearchBar />
           </div>

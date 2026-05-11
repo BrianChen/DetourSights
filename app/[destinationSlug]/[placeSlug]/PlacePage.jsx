@@ -11,6 +11,7 @@ import WhyVisitSection from './components/WhyVisitSection/WhyVisitSection';
 import PlaceDetailsCard from './components/PlaceDetailsCard/PlaceDetailsCard';
 import WhatToBringCard from './components/WhatToBringCard/WhatToBringCard';
 import AccessibilityCard from './components/AccessibilityCard/AccessibilityCard';
+import DestinationPlacesCarousel from './components/DestinationPlacesCarousel/DestinationPlacesCarousel';
 
 const PRICE_RANGE_MAP = {
   FREE: 'Free',
@@ -49,24 +50,24 @@ export async function generateMetadata({ params }) {
   const description = place.aiGenData?.description
     ?? `Discover ${place.name} in ${place.destination?.name ?? 'this destination'}.`;
   return {
-    title: `${place.name} — Detour Sights`,
+    title: `${place.name} — DetourSights`,
     description,
     alternates: {
       canonical: `https://www.detoursights.com/${place.destination.slug}/${placeSlug}`,
     },
     openGraph: {
-      title: `${place.name} — Detour Sights`,
+      title: `${place.name} — DetourSights`,
       description,
       url: `https://www.detoursights.com/${place.destination.slug}/${placeSlug}`,
-      siteName: 'Detour Sights',
+      siteName: 'DetourSights',
       type: 'website',
       ...(place.coverImageUrl && { images: [{ url: place.coverImageUrl }] }),
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${place.name} — Detour Sights`,
+      title: `${place.name} — DetourSights`,
       description,
-      ...(place.coverImageUrl && { images: [place.coverImageUrl] }),
+      ...(place.coverImageUrl && { images: [{ url: place.coverImageUrl }] }),
     },
   };
 }
@@ -191,6 +192,13 @@ export default async function PlacePage({ params }) {
         </aside>
 
       </div>
+
+      <DestinationPlacesCarousel
+        destinationId={place.destination.id}
+        destinationSlug={place.destination.slug}
+        destinationName={place.destination.name}
+        excludePlaceId={place.id}
+      />
     </>
   );
 }
