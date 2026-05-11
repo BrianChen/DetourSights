@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
+import { trackEvent } from '@/lib/analytics';
 import styles from './SearchBar.module.css';
 
 function useDebounce(value, delay) {
@@ -46,6 +47,12 @@ export default function SearchBar({ compact = false }) {
   }, []);
 
   function navigate(destination) {
+    trackEvent('main_searchbar_select', {
+      search_term: query,
+      destination_name: destination.name,
+      destination_slug: destination.slug,
+      source: compact ? 'header' : 'hero',
+    });
     setQuery('');
     setOpen(false);
     router.push(`/${destination.slug}`);

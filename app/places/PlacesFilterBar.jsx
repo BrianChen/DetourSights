@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState, useRef, useTransition } from 'react';
+import { trackEvent } from '@/lib/analytics';
 import styles from './PlacesFilterBar.module.css';
 
 const CATEGORIES = [
@@ -32,6 +33,14 @@ export default function PlacesFilterBar({ category, q }) {
   const activeCategory = category || 'all';
 
   function handleCategory(slug) {
+    if (slug !== 'all' && slug !== activeCategory) {
+      const name = CATEGORIES.find((c) => c.slug === slug)?.name;
+      trackEvent('place_category_filter_click', {
+        category: slug,
+        category_name: name,
+        source: 'all_places_page',
+      });
+    }
     clearTimeout(debounceRef.current);
     startTransition(() => router.push(buildUrl(slug, inputValue)));
   }

@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import CarouselRow from '@/components/CarouselRow';
+import CarouselPlaceLink from './CarouselPlaceLink';
 import styles from './DestinationPlacesCarousel.module.css';
 
-export default async function DestinationPlacesCarousel({ destinationId, destinationSlug, destinationName, excludePlaceId }) {
+export default async function DestinationPlacesCarousel({ destinationId, destinationSlug, destinationName, excludePlaceId, excludePlaceSlug }) {
   const places = await prisma.place.findMany({
     where: {
       destinationId,
@@ -35,7 +35,14 @@ export default async function DestinationPlacesCarousel({ destinationId, destina
           {places.map((p) => {
             const cat = p.categories[0]?.category;
             return (
-              <Link key={p.id} href={`/${destinationSlug}/${p.slug}`} className={styles.card}>
+              <CarouselPlaceLink
+                key={p.id}
+                href={`/${destinationSlug}/${p.slug}`}
+                className={styles.card}
+                fromPlaceSlug={excludePlaceSlug}
+                toPlaceSlug={p.slug}
+                destinationSlug={destinationSlug}
+              >
                 <div className={styles.imageWrap}>
                   {(p.coverImageUrl ?? p.destination.coverImageUrl) ? (
                     <Image
@@ -53,7 +60,7 @@ export default async function DestinationPlacesCarousel({ destinationId, destina
                   {cat && <span className={styles.categoryPill}>{cat.icon} {cat.name}</span>}
                   <p className={styles.cardName}>{p.name}</p>
                 </div>
-              </Link>
+              </CarouselPlaceLink>
             );
           })}
         </CarouselRow>

@@ -198,6 +198,7 @@ export default async function PlacePage({ params }) {
         destinationSlug={place.destination.slug}
         destinationName={place.destination.name}
         excludePlaceId={place.id}
+        excludePlaceSlug={place.slug}
       />
     </>
   );

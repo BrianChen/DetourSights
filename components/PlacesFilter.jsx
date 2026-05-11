@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
+import { trackEvent } from '@/lib/analytics';
 import styles from './PlacesFilter.module.css';
 
 export default function PlacesFilter({ places, destinationSlug, destinationCoverImageUrl }) {
@@ -19,10 +20,19 @@ export default function PlacesFilter({ places, destinationSlug, destinationCover
   }
   categories.sort((a, b) => a.name.localeCompare(b.name));
 
-  function toggle(slug) {
+  function toggle(slug, name) {
     setSelected(prev => {
       const next = new Set(prev);
-      next.has(slug) ? next.delete(slug) : next.add(slug);
+      const isAdding = !next.has(slug);
+      isAdding ? next.add(slug) : next.delete(slug);
+      if (isAdding) {
+        trackEvent('place_category_filter_click', {
+          category: slug,
+          category_name: name,
+          destination: destinationSlug,
+          source: 'destination_page',
+        });
+      }
       return next;
     });
   }
@@ -39,7 +49,7 @@ export default function PlacesFilter({ places, destinationSlug, destinationCover
           <button
             key={cat.slug}
             className={`${styles.pill} ${selected.has(cat.slug) ? styles.pillActive : ''}`}
-            onClick={() => toggle(cat.slug)}
+            onClick={() => toggle(cat.slug, cat.name)}
             aria-pressed={selected.has(cat.slug)}
           >
             {cat.icon && <span className={styles.icon}>{cat.icon}</span>}
