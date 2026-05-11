@@ -15,9 +15,10 @@ export default async function PersonalizedSuggestions() {
     select: {
       name: true,
       slug: true,
+      coverImageUrl: true,
       places: {
         take: 10,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: 'asc' },
         select: {
           id: true,
           name: true,
@@ -42,6 +43,7 @@ export default async function PersonalizedSuggestions() {
         <CarouselRow pageSize={3} responsiveCols={{ laptop: 2, lgMobile: 1 }}>
           {destination.places.map((place) => {
             const category = place.categories[0]?.category;
+            const imageSrc = place.coverImageUrl ?? destination.coverImageUrl;
             return (
               <Link
                 key={place.id}
@@ -49,9 +51,9 @@ export default async function PersonalizedSuggestions() {
                 className={styles.card}
               >
                 <div className={styles.imageWrap}>
-                  {place.coverImageUrl ? (
+                  {imageSrc ? (
                     <Image
-                      src={place.coverImageUrl}
+                      src={imageSrc}
                       alt={place.name}
                       fill
                       className={styles.image}

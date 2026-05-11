@@ -26,6 +26,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.95.1",
     "@prisma/client": "^5.22.0",
+    "@vercel/analytics": "^2.0.1",
     "@vis.gl/react-google-maps": "^1.8.3",
     "cloudinary": "^2.9.0",
     "dotenv": "^17.4.1",

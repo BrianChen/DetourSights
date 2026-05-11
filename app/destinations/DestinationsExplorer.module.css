@@ -1,0 +1,275 @@
+.wrap {
+  padding: 40px 0 80px;
+  background: var(--color-bg);
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Controls ─────────────────────────────────────────────────────────────── */
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.searchWrap {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-ink-muted);
+  pointer-events: none;
+}
+
+.search {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.search::placeholder {
+  color: var(--color-ink-muted);
+}
+
+.search:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(232, 96, 44, 0.12);
+}
+
+/* hide browser's built-in clear button */
+.search::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  padding: 7px 16px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-ink-secondary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-ink-muted);
+  color: var(--color-ink);
+}
+
+.pillActive {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.pillActive:hover {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  color: #fff;
+}
+
+/* ── Result count ─────────────────────────────────────────────────────────── */
+
+.count {
+  font-size: 0.82rem;
+  color: var(--color-ink-muted);
+  margin-bottom: 20px;
+}
+
+/* ── Grid ─────────────────────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+
+.card {
+  display: block;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  background: var(--color-surface);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.04);
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-surface-alt) 0%, var(--color-border) 100%);
+}
+
+.cardBody {
+  padding: 14px 16px 16px;
+}
+
+.cardName {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  line-height: 1.25;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardCountry {
+  font-size: 0.82rem;
+  color: var(--color-ink-muted);
+}
+
+.cardPlaces {
+  font-size: 0.78rem;
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+
+.empty {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 8px;
+}
+
+.emptyBody {
+  font-size: 0.9rem;
+  color: var(--color-ink-muted);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .wrap {
+    padding: 28px 0 60px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .controls {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .searchWrap {
+    max-width: 100%;
+  }
+
+  .cardName {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .wrap {
+    padding: 20px 0 48px;
+  }
+
+  .inner {
+    padding: 0 16px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .cardBody {
+    padding: 10px 12px 12px;
+  }
+
+  .cardName {
+    font-size: 0.88rem;
+  }
+
+  .cardMeta {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}

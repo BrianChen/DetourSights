@@ -9,12 +9,30 @@
   padding: 0 24px;
 }
 
+.headingRow {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
 .heading {
   font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--color-ink);
-  margin-bottom: 28px;
+}
+
+.viewAll {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.viewAll:hover {
+  text-decoration: underline;
 }
 
 .card {
@@ -74,9 +92,12 @@
     padding: 40px 0;
   }
 
+  .headingRow {
+    margin-bottom: 20px;
+  }
+
   .heading {
     font-size: 1.35rem;
-    margin-bottom: 20px;
   }
 }
 

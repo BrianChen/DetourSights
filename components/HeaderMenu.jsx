@@ -1,5 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, X, MapPin, ChevronDown } from 'lucide-react';
 import styles from './HeaderMenu.module.css';
@@ -9,17 +11,24 @@ import styles from './HeaderMenu.module.css';
  * @param {{ label: string, href: string }[]} places - Top featured places
  */
 export default function HeaderMenu({ destinations, places }) {
-  const [activeMenu, setActiveMenu] = useState(null);
+  const [menuState, setMenuState] = useState({ path: null, index: null });
   const navRef = useRef(null);
   const timeoutRef = useRef(null);
+  const pathname = usePathname();
+
+  // Derive activeMenu: only open if we're still on the path where it was opened
+  const activeMenu = menuState.path === pathname ? menuState.index : null;
+
+  const openMenu  = (index) => setMenuState({ path: pathname, index });
+  const closeMenu = ()      => setMenuState({ path: null, index: null });
 
   const menuData = [
     {
       label: 'Destinations',
       icon: <MapPin size={16} />,
       sections: [
-        { title: 'Top Destinations', items: destinations },
-        { title: 'Top Places',       items: places },
+        { title: 'Top Destinations', items: destinations, viewAllHref: '/destinations' },
+        { title: 'Top Places',       items: places,        viewAllHref: '/places' },
       ],
     },
   ];
@@ -32,11 +41,11 @@ export default function HeaderMenu({ destinations, places }) {
 
   const handleMouseEnter = (index) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setActiveMenu(index);
+    openMenu(index);
   };
 
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setActiveMenu(null), 150);
+    timeoutRef.current = setTimeout(() => closeMenu(), 150);
   };
 
   const handleDropdownEnter = () => {
@@ -50,7 +59,7 @@ export default function HeaderMenu({ destinations, places }) {
           <button
             key={item.label}
             onMouseEnter={() => handleMouseEnter(index)}
-            onClick={() => setActiveMenu(activeMenu === index ? null : index)}
+            onClick={() => activeMenu === index ? closeMenu() : openMenu(index)}
             className={`${styles.menuBtn} ${activeMenu === index ? styles.menuBtnActive : ''}`}
           >
             {item.icon}
@@ -72,7 +81,7 @@ export default function HeaderMenu({ destinations, places }) {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className={styles.backdrop}
-              onClick={() => setActiveMenu(null)}
+              onClick={() => closeMenu()}
             />
             <motion.div
               initial={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -86,7 +95,7 @@ export default function HeaderMenu({ destinations, places }) {
               <div className={styles.dropdownInner}>
                 <div className={styles.dropdownHeader}>
                   <h2 className={styles.dropdownTitle}>{menuData[activeMenu].label}</h2>
-                  <button className={styles.closeBtn} onClick={() => setActiveMenu(null)} aria-label="Close">
+                  <button className={styles.closeBtn} onClick={() => closeMenu()} aria-label="Close">
                     <X size={16} />
                   </button>
                 </div>
@@ -98,16 +107,16 @@ export default function HeaderMenu({ destinations, places }) {
                       <div className={styles.sectionDivider} />
                       <div className={styles.itemGrid}>
                         {section.items.map((item) => (
-                          <a key={item.href} href={item.href} className={styles.item}>
+                          <Link key={item.href} href={item.href} className={styles.item}>
                             <span>{item.label}</span>
                             <ChevronRight size={14} className={styles.itemChevron} />
-                          </a>
+                          </Link>
                         ))}
                       </div>
                       <div className={styles.sectionFooterDivider} />
-                      <a href="#" className={styles.viewAll}>
+                      <Link href={section.viewAllHref} className={styles.viewAll}>
                         View All <ChevronRight size={14} />
-                      </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
