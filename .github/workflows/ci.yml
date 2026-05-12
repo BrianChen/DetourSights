@@ -98,6 +98,9 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+      - name: Run DB migrations
+        run: npx dotenv -e .vercel/.env.production.local -- npx prisma migrate deploy
+
       - name: Build
         run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
