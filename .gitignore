@@ -25,3 +25,4 @@ playwright-report/
 
 docs/
 .ds_store
+next-env.d.ts
