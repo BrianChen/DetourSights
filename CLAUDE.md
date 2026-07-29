@@ -132,10 +132,10 @@ jsconfig.json                         # Path alias: @/* → ./*
 - **Price range enum:** `FREE | BUDGET | MODERATE | EXPENSIVE | VERY_EXPENSIVE`
 
 ## Deployment
-- **Manual deploy:** `npx vercel --prod` (builds and deploys in Vercel cloud — no GitHub Actions)
-- **No CI pipeline** — GitHub Actions removed; deploy manually when ready
-- **Migrations:** run `npx prisma migrate deploy` locally before deploying if there are pending migrations
-- **Known issue:** Neon Vercel integration sets `DATABASE_URL=""` in project env vars; the real values are under `Neon_DATABASE_URL`. Needs a proper fix in Vercel dashboard.
+- **Deploy:** push to `main` — GitHub Actions runs lint then deploys to Vercel automatically
+- **CI pipeline:** `.github/workflows/ci.yml` — lint → deploy (no E2E tests; they were removed to avoid DB writes and GA pollution)
+- **Migrations:** run `npx prisma migrate deploy` locally before pushing if there are pending schema changes — CI runs migrations against Neon prod as part of the deploy job
+- **Secrets required in GitHub:** `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL`, `DATABASE_URL_UNPOOLED`
 
 ## Common Commands
 ```bash
