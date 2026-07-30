@@ -87,7 +87,7 @@ lib/
     slug.js                           # Shared toSlug() utility
   scripts/
     destinations/                     # add-destinations.js, remove-destinations.js
-    places/                           # add-places.js, generate-place-content.js, process-batch-results.js
+    places/                           # import-scribekit-results.js, scribe-kit-content.json
     images/                           # get-destination-images.js, get-place-images.js
 
 prisma/
@@ -152,4 +152,4 @@ npm run lint         # ESLint (zero warnings)
 - 91 destinations, 184 hand-curated places — used for local dev resets only
 - Has deduplication logic — safe to re-run
 - Update `update: { description: d.description }` to propagate description changes on re-seed
-- Production places (~980 total) are added via `add-places.js` and are not in the seed file
+- Production places (~980 total) are not in the seed file — they are imported via ScribeKit using `lib/scripts/places/import-scribekit-results.js`
