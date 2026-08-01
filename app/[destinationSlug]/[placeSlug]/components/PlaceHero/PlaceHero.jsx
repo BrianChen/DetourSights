@@ -4,9 +4,9 @@ import styles from './PlaceHero.module.css';
 export default function PlaceHero({ place, destinationSlug, priceLabel, avgRating }) {
   return (
     <section className={styles.hero}>
-      {(place.coverImageUrl ?? place.destination.coverImageUrl) && (
+      {(place.coverImageUrl ?? place.destination.coverImage?.url) && (
         <Image
-          src={place.coverImageUrl ?? place.destination.coverImageUrl}
+          src={place.coverImageUrl ?? place.destination.coverImage?.url}
           alt={place.name}
           fill
           className={styles.heroImage}

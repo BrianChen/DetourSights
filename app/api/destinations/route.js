@@ -13,12 +13,12 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const { name, country, slug, description, coverImageUrl } = await request.json();
+  const { name, country, slug, description, coverImageId } = await request.json();
   if (!name || !country || !slug) {
     return NextResponse.json({ error: 'name, country, and slug are required' }, { status: 400 });
   }
   const destination = await prisma.destination.create({
-    data: { name, country, slug, description, coverImageUrl },
+    data: { name, country, slug, description, coverImageId },
   });
   return NextResponse.json(destination, { status: 201 });
 }

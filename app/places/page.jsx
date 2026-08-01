@@ -47,7 +47,7 @@ export default async function PlacesPage({ searchParams }) {
         slug: true,
         coverImageUrl: true,
         priceRange: true,
-        destination: { select: { name: true, slug: true, coverImageUrl: true } },
+        destination: { select: { name: true, slug: true, coverImage: { select: { url: true } } } },
         categories: {
           take: 1,
           select: { category: { select: { name: true, icon: true } } },
@@ -98,9 +98,9 @@ export default async function PlacesPage({ searchParams }) {
                       className={styles.card}
                     >
                       <div className={styles.imageWrap}>
-                        {(p.coverImageUrl ?? p.destination.coverImageUrl) ? (
+                        {(p.coverImageUrl ?? p.destination.coverImage?.url) ? (
                           <Image
-                            src={p.coverImageUrl ?? p.destination.coverImageUrl}
+                            src={p.coverImageUrl ?? p.destination.coverImage?.url}
                             alt={p.name}
                             fill
                             className={styles.image}

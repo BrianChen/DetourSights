@@ -17,7 +17,7 @@ export default async function DestinationsPage() {
       name: true,
       country: true,
       slug: true,
-      coverImageUrl: true,
+      coverImage: { select: { url: true } },
       _count: { select: { places: true } },
     },
     orderBy: { name: 'asc' },

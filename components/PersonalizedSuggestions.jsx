@@ -15,7 +15,7 @@ export default async function PersonalizedSuggestions() {
     select: {
       name: true,
       slug: true,
-      coverImageUrl: true,
+      coverImage: { select: { url: true } },
       places: {
         take: 10,
         orderBy: { createdAt: 'asc' },
@@ -43,7 +43,7 @@ export default async function PersonalizedSuggestions() {
         <CarouselRow pageSize={3} responsiveCols={{ laptop: 2, lgMobile: 1 }}>
           {destination.places.map((place) => {
             const category = place.categories[0]?.category;
-            const imageSrc = place.coverImageUrl ?? destination.coverImageUrl;
+            const imageSrc = place.coverImageUrl ?? destination.coverImage?.url;
             return (
               <Link
                 key={place.id}

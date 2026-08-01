@@ -15,7 +15,7 @@ export default async function DestinationPlacesCarousel({ destinationId, destina
       name: true,
       slug: true,
       coverImageUrl: true,
-      destination: { select: { coverImageUrl: true } },
+      destination: { select: { coverImage: { select: { url: true } } } },
       categories: {
         take: 1,
         select: { category: { select: { name: true, icon: true } } },
@@ -44,9 +44,9 @@ export default async function DestinationPlacesCarousel({ destinationId, destina
                 destinationSlug={destinationSlug}
               >
                 <div className={styles.imageWrap}>
-                  {(p.coverImageUrl ?? p.destination.coverImageUrl) ? (
+                  {(p.coverImageUrl ?? p.destination.coverImage?.url) ? (
                     <Image
-                      src={p.coverImageUrl ?? p.destination.coverImageUrl}
+                      src={p.coverImageUrl ?? p.destination.coverImage?.url}
                       alt={p.name}
                       fill
                       className={styles.image}

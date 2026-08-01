@@ -14,7 +14,7 @@ export default async function FeaturedDestinations({ take = 5 }) {
     take,
     include: {
       destination: {
-        select: { id: true, name: true, country: true, slug: true, coverImageUrl: true },
+        select: { id: true, name: true, country: true, slug: true, coverImage: { select: { url: true } } },
       },
     },
   });
@@ -32,9 +32,9 @@ export default async function FeaturedDestinations({ take = 5 }) {
           {rows.map(({ destination: d }) => (
             <Link key={d.id} href={`/${d.slug}`} className={styles.card}>
               <div className={styles.imageWrap}>
-                {d.coverImageUrl ? (
+                {d.coverImage?.url ? (
                   <Image
-                    src={d.coverImageUrl}
+                    src={d.coverImage.url}
                     alt={d.name}
                     fill
                     className={styles.image}

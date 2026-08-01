@@ -67,9 +67,9 @@ export default function DestinationsExplorer({ destinations }) {
             {filtered.map((d) => (
               <Link key={d.id} href={`/${d.slug}`} className={styles.card}>
                 <div className={styles.imageWrap}>
-                  {d.coverImageUrl ? (
+                  {d.coverImage?.url ? (
                     <Image
-                      src={d.coverImageUrl}
+                      src={d.coverImage.url}
                       alt={d.name}
                       fill
                       className={styles.image}

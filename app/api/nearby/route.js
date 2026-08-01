@@ -84,7 +84,7 @@ export async function GET(request) {
         name: true,
         slug: true,
         country: true,
-        coverImageUrl: true,
+        coverImage: { select: { url: true } },
         latitude: true,
         longitude: true,
       },
@@ -97,7 +97,7 @@ export async function GET(request) {
         name: d.name,
         slug: d.slug,
         country: d.country,
-        coverImageUrl: d.coverImageUrl,
+        coverImageUrl: d.coverImage?.url ?? null,
         distanceMiles: haversineDistanceMiles(lat, long, d.latitude, d.longitude),
       }))
       .sort((a, b) => a.distanceMiles - b.distanceMiles);

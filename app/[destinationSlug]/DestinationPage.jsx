@@ -9,8 +9,12 @@ import SetRecentDestination from '@/components/SetRecentDestination';
 
 export async function generateMetadata({ params }) {
   const { destinationSlug } = await params;
-  const destination = await prisma.destination.findUnique({ where: { slug: destinationSlug } });
+  const destination = await prisma.destination.findUnique({
+    where: { slug: destinationSlug },
+    include: { coverImage: { select: { url: true } } },
+  });
   if (!destination) return {};
+  const coverUrl = destination.coverImage?.url;
   const description = destination.description
     ?? `Explore the best things to do in ${destination.name}, ${destination.country}.`;
   return {
@@ -25,13 +29,13 @@ export async function generateMetadata({ params }) {
       url: `https://www.detoursights.com/${destinationSlug}`,
       siteName: 'DetourSights',
       type: 'website',
-      ...(destination.coverImageUrl && { images: [{ url: destination.coverImageUrl }] }),
+      ...(coverUrl && { images: [{ url: coverUrl }] }),
     },
     twitter: {
       card: 'summary_large_image',
       title: `${destination.name} — DetourSights`,
       description,
-      ...(destination.coverImageUrl && { images: [{ url: destination.coverImageUrl }] }),
+      ...(coverUrl && { images: [{ url: coverUrl }] }),
     },
   };
 }
@@ -41,6 +45,7 @@ export default async function DestinationPage({ params }) {
   const destination = await prisma.destination.findUnique({
     where: { slug: destinationSlug },
     include: {
+      coverImage: { select: { url: true } },
       places: {
         include: { categories: { include: { category: true } }, aiGenData: true },
         orderBy: { name: 'asc' },
@@ -55,6 +60,7 @@ export default async function DestinationPage({ params }) {
   if (!destination) notFound();
 
   const galleryImages = destination.images.map((di) => di.image.url);
+  const coverUrl = destination.coverImage?.url;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -62,7 +68,7 @@ export default async function DestinationPage({ params }) {
     name: destination.name,
     description: destination.description ?? `Explore the best things to do in ${destination.name}, ${destination.country}.`,
     url: `https://www.detoursights.com/${destination.slug}`,
-    ...(destination.coverImageUrl && { image: destination.coverImageUrl }),
+    ...(coverUrl && { image: coverUrl }),
   };
 
   return (
@@ -82,7 +88,7 @@ export default async function DestinationPage({ params }) {
         {galleryImages.length > 0 && <GallerySection images={galleryImages} label={destination.name} />}
       </div>
 
-      <PlacesFilter places={destination.places} destinationSlug={destinationSlug} destinationCoverImageUrl={destination.coverImageUrl} />
+      <PlacesFilter places={destination.places} destinationSlug={destinationSlug} destinationCoverImageUrl={coverUrl} />
 
       <WhyVisit destinationName={destination.name} />
 

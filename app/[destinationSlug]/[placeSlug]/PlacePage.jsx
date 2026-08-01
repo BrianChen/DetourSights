@@ -44,7 +44,10 @@ export async function generateMetadata({ params }) {
   const { destinationSlug, placeSlug } = await params;
   const place = await prisma.place.findFirst({
     where: { slug: placeSlug, destination: { slug: destinationSlug } },
-    include: { destination: true, aiGenData: true },
+    include: {
+      destination: { include: { coverImage: { select: { url: true } } } },
+      aiGenData: true,
+    },
   });
   if (!place) return {};
   const description = place.aiGenData?.description
@@ -77,7 +80,7 @@ export default async function PlacePage({ params }) {
   const place = await prisma.place.findFirst({
     where: { slug: placeSlug, destination: { slug: destinationSlug } },
     include: {
-      destination: true,
+      destination: { include: { coverImage: { select: { url: true } } } },
       aiGenData: true,
       categories: { include: { category: true } },
       photos: true,
