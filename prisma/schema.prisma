@@ -42,6 +42,7 @@ model Image {
   createdAt         DateTime           @default(now())
   destinationImages DestinationImage[]
   destinationCovers Destination[]      @relation("DestinationCover")
+  placeCovers       Place[]            @relation("PlaceCover")
 }
 
 model DestinationImage {
@@ -77,6 +78,8 @@ model Place {
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
   coverImageUrl        String?
+  coverImageId         Int?
+  coverImage           Image?             @relation("PlaceCover", fields: [coverImageId], references: [id], onDelete: SetNull)
   destinationId        Int
   accessibilityOptions Json?
   openingHours         Json?
@@ -93,6 +96,7 @@ model Place {
   @@unique([destinationId, name])
   @@unique([destinationId, slug])
   @@index([destinationId])
+  @@index([coverImageId])
 }
 
 model PlaceAiGenData {
