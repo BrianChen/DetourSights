@@ -15,7 +15,6 @@ model Destination {
   country       String
   slug          String               @unique
   description   String?
-  coverImageUrl String?
   coverImageId  Int?
   coverImage    Image?               @relation("DestinationCover", fields: [coverImageId], references: [id], onDelete: SetNull)
   latitude      Float?
@@ -45,12 +44,9 @@ model Image {
   destinationCovers Destination[]      @relation("DestinationCover")
 }
 
-/// Partial unique index enforces at most one row per destinationId with isCover=true.
-/// Prisma DSL can't express partial indexes — must be added via raw SQL migration.
 model DestinationImage {
   destinationId Int
   imageId       Int
-  isCover       Boolean     @default(false)
   position      Int         @default(0)
   destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
   image         Image       @relation(fields: [imageId], references: [id], onDelete: Cascade)
