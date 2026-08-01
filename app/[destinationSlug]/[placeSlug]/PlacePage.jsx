@@ -45,6 +45,7 @@ export async function generateMetadata({ params }) {
   const place = await prisma.place.findFirst({
     where: { slug: placeSlug, destination: { slug: destinationSlug } },
     include: {
+      coverImage: { select: { url: true } },
       destination: { include: { coverImage: { select: { url: true } } } },
       aiGenData: true,
     },
@@ -64,13 +65,13 @@ export async function generateMetadata({ params }) {
       url: `https://www.detoursights.com/${place.destination.slug}/${placeSlug}`,
       siteName: 'DetourSights',
       type: 'website',
-      ...(place.coverImageUrl && { images: [{ url: place.coverImageUrl }] }),
+      ...(place.coverImage?.url && { images: [{ url: place.coverImage.url }] }),
     },
     twitter: {
       card: 'summary_large_image',
       title: `${place.name} — DetourSights`,
       description,
-      ...(place.coverImageUrl && { images: [{ url: place.coverImageUrl }] }),
+      ...(place.coverImage?.url && { images: [{ url: place.coverImage.url }] }),
     },
   };
 }
@@ -80,6 +81,7 @@ export default async function PlacePage({ params }) {
   const place = await prisma.place.findFirst({
     where: { slug: placeSlug, destination: { slug: destinationSlug } },
     include: {
+      coverImage: { select: { url: true } },
       destination: { include: { coverImage: { select: { url: true } } } },
       aiGenData: true,
       categories: { include: { category: true } },
@@ -112,7 +114,7 @@ export default async function PlacePage({ params }) {
     name: place.name,
     description: place.aiGenData?.description ?? `Discover ${place.name} in ${place.destination.name}.`,
     url: `https://www.detoursights.com/${place.destination.slug}/${place.slug}`,
-    ...(place.coverImageUrl && { image: place.coverImageUrl }),
+    ...(place.coverImage?.url && { image: place.coverImage.url }),
     ...(place.address && { address: place.address }),
     ...(place.phone && { telephone: place.phone }),
     ...(place.website && { sameAs: place.website }),

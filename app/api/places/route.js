@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 const placeInclude = {
+  coverImage: { select: { url: true } },
   destination: true,
   aiGenData: true,
   categories: { include: { category: true } },

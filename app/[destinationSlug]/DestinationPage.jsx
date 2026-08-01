@@ -47,7 +47,7 @@ export default async function DestinationPage({ params }) {
     include: {
       coverImage: { select: { url: true } },
       places: {
-        include: { categories: { include: { category: true } }, aiGenData: true },
+        include: { coverImage: { select: { url: true } }, categories: { include: { category: true } }, aiGenData: true },
         orderBy: { name: 'asc' },
       },
       images: {

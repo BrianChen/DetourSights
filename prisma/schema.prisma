@@ -43,6 +43,7 @@ model Image {
   destinationImages DestinationImage[]
   destinationCovers Destination[]      @relation("DestinationCover")
   placeCovers       Place[]            @relation("PlaceCover")
+  placeImages       PlaceImage[]
 }
 
 model DestinationImage {
@@ -54,6 +55,18 @@ model DestinationImage {
 
   @@id([destinationId, imageId])
   @@index([destinationId])
+  @@index([imageId])
+}
+
+model PlaceImage {
+  placeId  Int
+  imageId  Int
+  position Int   @default(0)
+  place    Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  image    Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@id([placeId, imageId])
+  @@index([placeId])
   @@index([imageId])
 }
 
@@ -77,7 +90,6 @@ model Place {
   priceRange           PriceRange?
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
-  coverImageUrl        String?
   coverImageId         Int?
   coverImage           Image?             @relation("PlaceCover", fields: [coverImageId], references: [id], onDelete: SetNull)
   destinationId        Int
@@ -86,6 +98,7 @@ model Place {
   reservable           Boolean?
   featuredEntry        FeaturedPlace?
   photos               Photo[]
+  images               PlaceImage[]
   destination          Destination        @relation(fields: [destinationId], references: [id])
   aiGenData            PlaceAiGenData?
   categories           PlaceCategory[]

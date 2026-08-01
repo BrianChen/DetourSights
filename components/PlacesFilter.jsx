@@ -71,9 +71,9 @@ export default function PlacesFilter({ places, destinationSlug, destinationCover
         {filtered.map(place => (
           <a key={place.id} id={`place-${place.slug}`} href={`/${destinationSlug}/${place.slug}`} className={styles.card}>
             <div className={styles.imageWrap}>
-              {(place.coverImageUrl ?? destinationCoverImageUrl) && (
+              {(place.coverImage?.url ?? destinationCoverImageUrl) && (
                 <Image
-                  src={place.coverImageUrl ?? destinationCoverImageUrl}
+                  src={place.coverImage?.url ?? destinationCoverImageUrl}
                   alt={place.name}
                   fill
                   className={styles.image}

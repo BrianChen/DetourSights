@@ -24,7 +24,7 @@ export default async function PersonalizedSuggestions() {
           name: true,
           slug: true,
           aiGenData: { select: { description: true } },
-          coverImageUrl: true,
+          coverImage: { select: { url: true } },
           categories: {
             take: 1,
             select: { category: { select: { name: true, icon: true } } },
@@ -43,7 +43,7 @@ export default async function PersonalizedSuggestions() {
         <CarouselRow pageSize={3} responsiveCols={{ laptop: 2, lgMobile: 1 }}>
           {destination.places.map((place) => {
             const category = place.categories[0]?.category;
-            const imageSrc = place.coverImageUrl ?? destination.coverImage?.url;
+            const imageSrc = place.coverImage?.url ?? destination.coverImage?.url;
             return (
               <Link
                 key={place.id}

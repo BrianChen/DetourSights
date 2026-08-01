@@ -18,7 +18,7 @@ export default async function FeaturedPlaces({ take = 5 }) {
           id: true,
           name: true,
           slug: true,
-          coverImageUrl: true,
+          coverImage: { select: { url: true } },
           destination: { select: { slug: true, name: true } },
         },
       },
@@ -38,9 +38,9 @@ export default async function FeaturedPlaces({ take = 5 }) {
           {rows.map(({ place: p }) => (
             <Link key={p.id} href={`/${p.destination.slug}/${p.slug}`} className={styles.card}>
               <div className={styles.imageWrap}>
-                {p.coverImageUrl ? (
+                {p.coverImage?.url ? (
                   <Image
-                    src={p.coverImageUrl}
+                    src={p.coverImage.url}
                     alt={p.name}
                     fill
                     className={styles.image}
