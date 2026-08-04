@@ -40,7 +40,7 @@ export default async function Header() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <Link id="logo" href="/" className={styles.logo}>
-          <Image src="/logo.png" alt="Detour Sights" height={68} width={133} className={styles.logoImg} />
+          <Image src="/logo.png" alt="DetourSights" height={68} width={133} className={styles.logoImg} />
         </Link>
         <HeaderClient destinations={destinations} places={places} />
       </div>

@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brand}>
-          <span className={styles.name}>Detour Sights</span>
+          <span className={styles.name}>DetoursSights</span>
           <p className={styles.tagline}>Discover things to do around the world.</p>
         </div>
 
@@ -22,7 +22,7 @@ export default function Footer() {
       </div>
 
       <div className={styles.bottom}>
-        <p>&copy; {year} Detour Sights. All rights reserved.</p>
+        <p>&copy; {year} DetourSights. All rights reserved.</p>
       </div>
     </footer>
   );

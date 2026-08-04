@@ -8,7 +8,7 @@ export default function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Detour Sights',
+    name: 'DetourSights',
     url: 'https://www.detoursights.com',
     description: 'Discover the best things to do, places to eat, and hidden gems at destinations around the world.',
   };
