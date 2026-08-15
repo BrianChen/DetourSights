@@ -1,4 +1,4 @@
-# Detour Sights (https://www.detoursights.com)
+# DetourSights (https://www.detoursights.com)
 
 A travel discovery web app for finding things to do, places to eat, and hidden gems at destinations around the world.
 
@@ -6,8 +6,8 @@ A travel discovery web app for finding things to do, places to eat, and hidden g
 
 ## Screenshots
 
-| Home | Destination |
-|---|---|
+| Home                                      | Destination                                             |
+| ----------------------------------------- | ------------------------------------------------------- |
 | ![Home page](public/screenshots/home.png) | ![Destination page](public/screenshots/destination.png) |
 
 ---
@@ -22,30 +22,30 @@ The app tracks recently visited destinations via a cookie and uses that to surfa
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 14 (App Router) |
-| **Language** | JavaScript (no TypeScript) |
-| **Database** | PostgreSQL |
-| **ORM** | Prisma 5 |
-| **Styling** | CSS Modules + CSS custom properties |
-| **Images** | Cloudinary (URLs stored in DB, served via `next/image`) |
-| **Fonts** | Playfair Display + Inter via `next/font/google` |
-| **Maps** | Google Maps Embed API |
+| Layer          | Technology                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| **Framework**  | Next.js 14 (App Router)                                                                    |
+| **Language**   | JavaScript (no TypeScript)                                                                 |
+| **Database**   | PostgreSQL                                                                                 |
+| **ORM**        | Prisma 5                                                                                   |
+| **Styling**    | CSS Modules + CSS custom properties                                                        |
+| **Images**     | Cloudinary (URLs stored in DB, served via `next/image`)                                    |
+| **Fonts**      | Playfair Display + Inter via `next/font/google`                                            |
+| **Maps**       | Google Maps Embed API                                                                      |
 | **Responsive** | `react-responsive` with hydration-safe hooks, `postcss-custom-media` for named breakpoints |
-| **Icons** | Lucide React |
-| **Deployment** | Vercel |
+| **Icons**      | Lucide React                                                                               |
+| **Deployment** | Vercel                                                                                     |
 
 ### Breakpoints
 
 Defined as `@custom-media` in `app/globals.css` and mirrored as JS hooks in `lib/media-queries.js`:
 
-| Name | Max-width | Targets |
-|---|---|---|
-| `--mobile` | 479px | Phones |
-| `--lgMobile` | 559px | Large phones |
-| `--tablet` | 767px | Phones + portrait tablets |
-| `--laptop` | 1023px | Tablets landscape + small laptops |
+| Name         | Max-width | Targets                           |
+| ------------ | --------- | --------------------------------- |
+| `--mobile`   | 479px     | Phones                            |
+| `--lgMobile` | 559px     | Large phones                      |
+| `--tablet`   | 767px     | Phones + portrait tablets         |
+| `--laptop`   | 1023px    | Tablets landscape + small laptops |
 
 ---
 

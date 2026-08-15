@@ -1,16 +1,19 @@
 # Detour Sights — Claude Code Guide
 
 ## Project Overview
+
 Travel discovery web app built with Next.js 14 App Router. Users browse destinations, filter places by category, and view detailed place pages with AI-generated content.
 
 ## Tech Stack
+
 - **Framework:** Next.js 14 (App Router, plain JS — no TypeScript)
-- **Database:** PostgreSQL via Prisma ORM
+- **Database:** Neon PostgreSQL
 - **Styling:** CSS Modules + CSS custom properties (design tokens in `app/globals.css`)
 - **Fonts:** Playfair Display (`--font-display`) + Inter (`--font-body`) via `next/font/google`
 - **Images:** Cloudinary (URLs stored in DB)
 
 ## Project Structure
+
 ```
 app/
   layout.jsx                          # Root layout — fonts, Header, Footer
@@ -99,10 +102,12 @@ jsconfig.json                         # Path alias: @/* → ./*
 ```
 
 ## Rules
+
 1. When modifying, refactoring, or updating code, always update relevant comments, docstrings, and JSDoc/TSDoc to reflect the changes.
 2. If a comment becomes obsolete after a change, remove it.
 
 ## Key Conventions
+
 - **Path alias:** Use `@/` for all imports (e.g. `@/components/Header`, `@/lib/prisma`)
 - **Server vs client:** Pages are server components by default. Add `'use client'` only when state/interactivity is needed
 - **CSS:** Always use CSS Modules + design tokens. Never inline styles or use Tailwind.
@@ -110,6 +115,7 @@ jsconfig.json                         # Path alias: @/* → ./*
 - **Images:** Store Cloudinary URLs in the DB (`coverImageUrl` on Destination/Place). Use `next/image` with `remotePatterns` for Cloudinary. Static site assets go in `/public`.
 
 ## Design Tokens (key ones)
+
 ```css
 --color-accent         /* #E8602C — terracotta, primary CTA */
 --color-accent-dark    /* #C94E1F — hover state */
@@ -125,6 +131,7 @@ jsconfig.json                         # Path alias: @/* → ./*
 ```
 
 ## Database
+
 - **Provider:** PostgreSQL (Neon)
 - **ORM:** Prisma 5
 - **Key models:** `Destination`, `Place`, `PlaceAiGenData`, `Category`, `PlaceCategory` (join), `Mood`, `PlaceMood` (join), `SeasonalTipAiGen`, `Review`, `Photo`, `User`
@@ -132,12 +139,15 @@ jsconfig.json                         # Path alias: @/* → ./*
 - **Price range enum:** `FREE | BUDGET | MODERATE | EXPENSIVE | VERY_EXPENSIVE`
 
 ## Deployment
-- **Deploy:** push to `main` — GitHub Actions runs lint then deploys to Vercel automatically
-- **CI pipeline:** `.github/workflows/ci.yml` — lint → deploy (no E2E tests; they were removed to avoid DB writes and GA pollution)
+
+- **Deploy:** push to `main` — GitHub Actions runs lint, then migrations, then `vercel deploy --prod`. Vercel builds the source (no `--prebuilt`; the CLI's prebuilt file-tracing dropped `client-only`/`styled-jsx` from the function bundle and broke prebuilt deploys)
+- **Git integration:** Vercel's automatic Git deploys are disabled on `main` via `vercel.json` (`git.deploymentEnabled.main = false`) so CI is the sole deployer — otherwise every push double-deploys (once from CI, once from the Git integration)
+- **CI pipeline:** `.github/workflows/ci.yml` — lint → migrate → deploy (no E2E tests; they were removed to avoid DB writes and GA pollution)
 - **Migrations:** run `npx prisma migrate deploy` locally before pushing if there are pending schema changes — CI runs migrations against Neon prod as part of the deploy job
 - **Secrets required in GitHub:** `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL`, `DATABASE_URL_UNPOOLED`
 
 ## Common Commands
+
 ```bash
 npm run dev          # Start dev server
 npm run db:seed      # Seed database
@@ -148,6 +158,7 @@ npm run lint         # ESLint (zero warnings)
 ```
 
 ## Seed File Notes
+
 - Located at `prisma/seed.js`
 - 91 destinations, 184 hand-curated places — used for local dev resets only
 - Has deduplication logic — safe to re-run
